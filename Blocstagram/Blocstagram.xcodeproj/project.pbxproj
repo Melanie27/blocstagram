@@ -25,6 +25,10 @@
 		9B17ECC81D00DAD2000B2B10 /* 10.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9B17ECBE1D00DAD2000B2B10 /* 10.jpg */; };
 		9B17ECCE1D00DB8F000B2B10 /* ImagesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B17ECCD1D00DB8F000B2B10 /* ImagesTableViewController.m */; };
 		9B17ECD01D00FCC9000B2B10 /* 60.png in Resources */ = {isa = PBXBuildFile; fileRef = 9B17ECCF1D00FCC9000B2B10 /* 60.png */; };
+		9B17ECD31D062021000B2B10 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B17ECD21D062021000B2B10 /* User.m */; };
+		9B17ECD61D062198000B2B10 /* Media.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B17ECD51D062198000B2B10 /* Media.m */; };
+		9B17ECD91D0624B7000B2B10 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B17ECD81D0624B7000B2B10 /* Comment.m */; };
+		9B17ECDC1D06254F000B2B10 /* DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B17ECDB1D06254F000B2B10 /* DataSource.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +75,14 @@
 		9B17ECCC1D00DB8F000B2B10 /* ImagesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImagesTableViewController.h; path = ../ImagesTableViewController.h; sourceTree = "<group>"; };
 		9B17ECCD1D00DB8F000B2B10 /* ImagesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImagesTableViewController.m; path = ../ImagesTableViewController.m; sourceTree = "<group>"; };
 		9B17ECCF1D00FCC9000B2B10 /* 60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 60.png; sourceTree = "<group>"; };
+		9B17ECD11D062021000B2B10 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		9B17ECD21D062021000B2B10 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		9B17ECD41D062198000B2B10 /* Media.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Media.h; sourceTree = "<group>"; };
+		9B17ECD51D062198000B2B10 /* Media.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Media.m; sourceTree = "<group>"; };
+		9B17ECD71D0624B7000B2B10 /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
+		9B17ECD81D0624B7000B2B10 /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
+		9B17ECDA1D06254F000B2B10 /* DataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataSource.h; sourceTree = "<group>"; };
+		9B17ECDB1D06254F000B2B10 /* DataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataSource.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +136,14 @@
 				9B17ECB41D00DA9D000B2B10 /* Images */,
 				9B17ECCC1D00DB8F000B2B10 /* ImagesTableViewController.h */,
 				9B17ECCD1D00DB8F000B2B10 /* ImagesTableViewController.m */,
+				9B17ECD11D062021000B2B10 /* User.h */,
+				9B17ECD41D062198000B2B10 /* Media.h */,
+				9B17ECD51D062198000B2B10 /* Media.m */,
+				9B17ECD71D0624B7000B2B10 /* Comment.h */,
+				9B17ECDA1D06254F000B2B10 /* DataSource.h */,
+				9B17ECDB1D06254F000B2B10 /* DataSource.m */,
+				9B17ECD81D0624B7000B2B10 /* Comment.m */,
+				9B17ECD21D062021000B2B10 /* User.m */,
 				9B17EC841D00D473000B2B10 /* AppDelegate.h */,
 				9B17EC851D00D473000B2B10 /* AppDelegate.m */,
 				9B17EC8D1D00D473000B2B10 /* Assets.xcassets */,
@@ -318,7 +338,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B17ECD31D062021000B2B10 /* User.m in Sources */,
+				9B17ECD91D0624B7000B2B10 /* Comment.m in Sources */,
+				9B17ECD61D062198000B2B10 /* Media.m in Sources */,
 				9B17EC861D00D473000B2B10 /* AppDelegate.m in Sources */,
+				9B17ECDC1D06254F000B2B10 /* DataSource.m in Sources */,
 				9B17EC831D00D473000B2B10 /* main.m in Sources */,
 				9B17ECCE1D00DB8F000B2B10 /* ImagesTableViewController.m in Sources */,
 			);
@@ -538,6 +562,7 @@
 				9B17ECAD1D00D473000B2B10 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9B17ECAE1D00D473000B2B10 /* Build configuration list for PBXNativeTarget "BlocstagramTests" */ = {
 			isa = XCConfigurationList;
@@ -546,6 +571,7 @@
 				9B17ECB01D00D473000B2B10 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9B17ECB11D00D473000B2B10 /* Build configuration list for PBXNativeTarget "BlocstagramUITests" */ = {
 			isa = XCConfigurationList;
@@ -554,6 +580,7 @@
 				9B17ECB31D00D473000B2B10 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
