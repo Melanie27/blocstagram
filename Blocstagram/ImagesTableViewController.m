@@ -123,9 +123,19 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        NSLog(@"Delete a row");
+        //Get the images by index
+        UIImage *image = self.images[indexPath.row];
+        //delete the image
+        [self.images removeObject:image];
+
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
-        //[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationFade];
+        //Update image array
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"imageCell" forIndexPath:indexPath];
+        static NSInteger imageViewTag = 1234;
+        UIImageView *imageView = (UIImageView*)[cell.contentView viewWithTag:imageViewTag];
+        imageView.image = image;
+        
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
