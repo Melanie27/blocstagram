@@ -41,7 +41,7 @@
         }
     }
     
-   
+    // return table view managed by the controller, tell the table how to create new cells
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"imageCell"];
     
 }
@@ -68,15 +68,19 @@
     // Configure the cell...
     // #2
     
+    //set the tag to an arbitrary number - must remain consistent. can be attached to any UIView and used later to recover it from its superview by invoking viewWithTag
+    
     static NSInteger imageViewTag = 1234;
     UIImageView *imageView = (UIImageView*)[cell.contentView viewWithTag:imageViewTag];
     
     // #3
+    //handles the case when viewWithTag fails to recover a UIimageView -- so create a brand new cell
     if (!imageView) {
         // This is a new cell, it doesn't have an image view yet
         imageView = [[UIImageView alloc] init];
         imageView.contentMode = UIViewContentModeScaleToFill;
         
+        //content view returns the content view of a cell object
         imageView.frame = cell.contentView.bounds;
         imageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         
@@ -90,7 +94,7 @@
     return cell;
 }
 
-//Override the default height
+//Override the default height, which is 44 points
 -(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     //return 300;
     //to get the right aspect ratio divide the frame by image size and multiply by height
