@@ -53,19 +53,15 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    // #1
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"imageCell" forIndexPath:indexPath];
-    
-    // Configure the cell...
-    // #2
-    
-    //set the tag to an arbitrary number - must remain consistent. can be attached to any UIView and used later to recover it from its superview by invoking viewWithTag
     
     static NSInteger imageViewTag = 1234;
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"imageCell" forIndexPath:indexPath];
+    
+    //configure the cell
     UIImageView *imageView = (UIImageView*)[cell.contentView viewWithTag:imageViewTag];
     
-    // #3
-    //handles the case when viewWithTag fails to recover a UIimageView -- so create a brand new cell
+    
     if (!imageView) {
         // This is a new cell, it doesn't have an image view yet
         imageView = [[UIImageView alloc] init];
@@ -90,9 +86,7 @@
 
 //Override the default height, which is 44 points
 -(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    //return 300;
-    //to get the right aspect ratio divide the frame by image size and multiply by height
-   
+    
     Media *item = [DataSource sharedInstance].mediaItems[indexPath.row];
     UIImage *image = item.image;
     
