@@ -6,7 +6,7 @@
 //  Copyright © 2016 Bloc. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+
 //for your class to recognize UIImage you must import UIKit
 #import <UIKit/UIKit.h>
 
