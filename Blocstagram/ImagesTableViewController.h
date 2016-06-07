@@ -10,5 +10,5 @@
 
 @interface ImagesTableViewController : UITableViewController
 
-
+@property (nonatomic, strong, readonly) NSArray *mediaItems;
 @end
