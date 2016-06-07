@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface DataSource : NSObject
-//use a singleton pattern - any cod ethat needs to use this class will share this one instance
+//use a singleton pattern - any code ethat needs to use this class will share this one instance
 
 +(instancetype) sharedInstance;
 //add a property to store our array of media items
