@@ -13,6 +13,6 @@
 
 +(instancetype) sharedInstance;
 //add a property to store our array of media items
-//@property (nonatomic, strong, readonly) NSArray *mediaItems;
+@property (nonatomic, strong, readonly) NSArray *mediaItems;
 
 @end
