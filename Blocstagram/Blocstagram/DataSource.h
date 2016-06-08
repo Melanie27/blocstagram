@@ -7,12 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-
+@class Media;
 @interface DataSource : NSObject
 //use a singleton pattern - any cod ethat needs to use this class will share this one instance
 
 +(instancetype) sharedInstance;
 //add a property to store our array of media items
 @property (nonatomic, strong, readonly) NSArray *mediaItems;
+
+//declare method to add to DataSource that lets other classes delete a media item
+-(void) deleteMediaItem: (Media *)item;
 
 @end

@@ -13,7 +13,11 @@
 
 
 //pattern states that property can only be modified by the DataSource instance
-@interface DataSource()
+//make mediaItems key-value compliant
+@interface DataSource() {
+    //an array must be accessible as an instance variable named _<key>
+    NSMutableArray *_mediaItems;
+}
 
 @property (nonatomic, strong) NSArray *mediaItems;
 
@@ -135,6 +139,48 @@
     
     return [NSString stringWithString:s];
 }
+
+#pragma mark - Key/Value Observing
+
+//add accessor methods that will allow observers to be notified when the content of the array changes
+-(NSUInteger) countOfMediaItems {
+    return self.mediaItems.count;
+}
+
+-(id) objectInMediaItemsAtIndex:(NSUInteger)index {
+    return [self.mediaItems objectAtIndex:index];
+}
+
+-(NSArray *) mediaItemsAtIndexes:(NSIndexSet *)indexes {
+    return [self.mediaItems objectAtIndex:indexes];
+}
+
+
+//Add mutable accessor methods. KVC methods that allow insertion and deletion of elements from mediaItems
+
+- (void) insertObject:(Media *)object inMediaItemsAtIndex:(NSUInteger)index {
+    [_mediaItems insertObject:object atIndex:index];
+}
+
+- (void) removeObjectFromMediaItemsAtIndex:(NSUInteger)index {
+    [_mediaItems removeObjectAtIndex:index];
+}
+
+- (void) replaceObjectInMediaItemsAtIndex:(NSUInteger)index withObject:(id)object {
+    [_mediaItems replaceObjectAtIndex:index withObject:object];
+}
+
+//add method to DataSource that lets other classes delete a media item
+-(void) deleteMediaItem:(Media *)item {
+    NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"mediaItems"];
+    [mutableArrayWithKVO removeObject:item];
+}
+
+
+
+
+
+
 
 
 
