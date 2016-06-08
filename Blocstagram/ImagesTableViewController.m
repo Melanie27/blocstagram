@@ -20,6 +20,7 @@
 
 @implementation ImagesTableViewController
 
+/*
 +(instancetype) items {
     //the dispatch_once function ensures we only create a single instance of this class. function takes a block of code and runs it only the first time it is called
     static dispatch_once_t once;
@@ -31,6 +32,11 @@
         
     });
     return items;
+}
+ */
+
+-(NSArray*)items {
+    return [[DataSource sharedInstance] mediaItems];
 }
 
 //Override the table view controller's initializer to create an empty array
@@ -187,7 +193,8 @@
     }
     
    
-    Media *item = [DataSource sharedInstance].mediaItems[indexPath.row];
+//    Media *item = [DataSource sharedInstance].mediaItems[indexPath.row];
+    Media *item = [self items][indexPath.row];
     imageView.image = item.image;
     
     return cell;
@@ -198,7 +205,7 @@
 //Override the default height, which is 44 points
 -(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    Media *item = [DataSource sharedInstance].mediaItems[indexPath.row];
+    Media *item = [self items][indexPath.row];
     UIImage *image = item.image;
     
     return image.size.height / image.size.width * CGRectGetWidth(self.view.frame);
