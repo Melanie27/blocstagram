@@ -26,6 +26,7 @@ static UIFont *boldFont;
 static UIColor *usernameLabelGray;
 static UIColor *commentLabelGray;
 static UIColor *linkColor;
+static UIColor *commentOrange;
 static NSParagraphStyle *paragraphStyle;
 
 @implementation MediaTableViewCell
@@ -39,6 +40,7 @@ static NSParagraphStyle *paragraphStyle;
     usernameLabelGray = [UIColor colorWithRed:0.933 green:0.933 blue:0.933 alpha:1]; /*#eeeeee*/
     commentLabelGray = [UIColor colorWithRed:0.898 green:0.898 blue:0.898 alpha:1]; /*#e5e5e5*/
     linkColor = [UIColor colorWithRed:0.345 green:0.314 blue:0.427 alpha:1]; /*#58506d*/
+    commentOrange = [UIColor orangeColor];
     
     NSMutableParagraphStyle *mutableParagraphStyle = [[NSMutableParagraphStyle alloc] init];
     mutableParagraphStyle.headIndent = 20.0;
@@ -113,6 +115,10 @@ static NSParagraphStyle *paragraphStyle;
     for (Comment *comment in self.mediaItem.comments) {
         //make a string that says "username comment" followed by a line break
         NSString *baseString = [NSString stringWithFormat:@"%@, %@\n", comment.from.userName, comment.text];
+        
+        //Change the color of the first comment to orange
+        //NSMutableAttributedString *firstCommentString = [[NSMutableAttributedString alloc]]
+       // NSLog([NSString stringWithFormat:@"%@", self.mediaItem.comments[0]]);
         
         //Make an attributed string, with the "username" bold
         NSMutableAttributedString *oneCommentString = [[NSMutableAttributedString alloc] initWithString:baseString attributes:@{NSFontAttributeName: lightFont, NSParagraphStyleAttributeName : paragraphStyle}];
