@@ -18,6 +18,12 @@
 @property (nonatomic, strong) UILabel *usernameAndCaptionLabel;
 @property (nonatomic, strong) UILabel *commentLabel;
 
+//add properties for auto layout
+@property (nonatomic, strong) NSLayoutConstraint *imageHeightConstraint;
+@property (nonatomic, strong) NSLayoutConstraint *usernameAndCaptionLabelHeightConstraint;
+@property (nonatomic, strong) NSLayoutConstraint *commentLabelHeightConstraint;
+
+
 @end
 
 //static variables will belong to every instance of MediaTableViewCell so can be initialized in load method
@@ -71,8 +77,53 @@ static NSParagraphStyle *paragraphStyle;
         
         for (UIView *view in @[self.mediaImageView, self.usernameAndCaptionLabel, self.commentLabel]) {
             [self.contentView addSubview:view];
+            
+            //a boolean value determines if autoresize mask is translated into auto layout constraints. always set to no with auto layouts
+            view.translatesAutoresizingMaskIntoConstraints = NO;
         }
         
+        //adding constraints - why on init?
+        NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_mediaImageView, _usernameAndCaptionLabel, _commentLabel);
+        
+        //Horizontal constraints
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_mediaImageView]|" options:kNilOptions metrics:nil views:viewDictionary]];
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_usernameAndCaptionLabel]|" options:kNilOptions metrics:nil views:viewDictionary]];
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_commentLabel]|" options:kNilOptions metrics:nil views:viewDictionary]];
+        
+        //Vertical constraints
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_mediaImageView][_usernameAndCaptionLabel][_commentLabel]"
+                                                                                 options:kNilOptions
+                                                                                 metrics:nil
+                                                                                 views:viewDictionary]];
+        //Height constraints
+        self.imageHeightConstraint = [NSLayoutConstraint constraintWithItem:_mediaImageView
+                                                                  attribute:NSLayoutAttributeHeight
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:nil
+                                                                  attribute:NSLayoutAttributeNotAnAttribute
+                                                                 multiplier:1
+                                                                   constant:100];
+        self.imageHeightConstraint.identifier = @"Image height constraint";
+        
+        self.usernameAndCaptionLabelHeightConstraint = [NSLayoutConstraint constraintWithItem:_usernameAndCaptionLabel
+                                                                                    attribute:NSLayoutAttributeHeight
+                                                                                    relatedBy:NSLayoutRelationEqual
+                                                                                       toItem:nil
+                                                                                    attribute:NSLayoutAttributeNotAnAttribute
+                                                                                   multiplier:1
+                                                                                     constant:100];
+        self.usernameAndCaptionLabelHeightConstraint.identifier = @"Username and caption label height constraint";
+        
+        self.commentLabelHeightConstraint = [NSLayoutConstraint constraintWithItem:_commentLabel
+                                                                         attribute:NSLayoutAttributeHeight
+                                                                         relatedBy:NSLayoutRelationEqual
+                                                                            toItem:nil
+                                                                         attribute:NSLayoutAttributeNotAnAttribute
+                                                                        multiplier:1
+                                                                          constant:100];
+        self.commentLabelHeightConstraint.identifier = @"Comment label height constraint";
+        
+        [self.contentView addConstraints:@[self.imageHeightConstraint, self.usernameAndCaptionLabelHeightConstraint, self.commentLabelHeightConstraint]];
     }
     
     return self;
@@ -131,7 +182,7 @@ static NSParagraphStyle *paragraphStyle;
 //write a method to help calculate the size of attributed strings
 //calculates how tall usernameAndCaptionLabel and commentLabel need to be
 
--(CGSize) sizeOfString:(NSAttributedString *)string {
+/*-(CGSize) sizeOfString:(NSAttributedString *)string {
     CGSize maxSize = CGSizeMake(CGRectGetWidth(self.contentView.bounds) -40, 0.0);
     
     //boundingRect uses the text, attributes and max width supplied to determine how much width we need
@@ -140,7 +191,7 @@ static NSParagraphStyle *paragraphStyle;
     sizeRect.size.height += 20;
     sizeRect = CGRectIntegral(sizeRect);
     return sizeRect.size;
-}
+}*/
 
 
 //layout subviews
@@ -154,16 +205,28 @@ static NSParagraphStyle *paragraphStyle;
         return;
     }
     
-    CGFloat imageHeight = self.mediaItem.image.size.height / self.mediaItem.image.size.width * CGRectGetWidth(self.contentView.bounds);
+    /*CGFloat imageHeight = self.mediaItem.image.size.height / self.mediaItem.image.size.width * CGRectGetWidth(self.contentView.bounds);
     self.mediaImageView.frame = CGRectMake(0,0, CGRectGetWidth(self.contentView.bounds), imageHeight);
     
-    CGSize sizeOfUsernameAndCaptionLabel = [self sizeOfString:self.usernameAndCaptionLabel.attributedText];
+    //CGSize sizeOfUsernameAndCaptionLabel = [self sizeOfString:self.usernameAndCaptionLabel.attributedText];
     self.usernameAndCaptionLabel.frame = CGRectMake(0, CGRectGetMaxY(self.mediaImageView.frame), CGRectGetWidth(self.contentView.bounds), sizeOfUsernameAndCaptionLabel.height);
     
-    CGSize sizeOfCommentLabel = [self sizeOfString:self.commentLabel.attributedText];
+    //CGSize sizeOfCommentLabel = [self sizeOfString:self.commentLabel.attributedText];
     self.commentLabel.frame = CGRectMake(0, CGRectGetMaxY(self.usernameAndCaptionLabel.frame), CGRectGetWidth(self.bounds), sizeOfCommentLabel.height);
     
     // Hide the line between cells
+    self.separatorInset = UIEdgeInsetsMake(0, CGRectGetWidth(self.bounds)/2.0, 0, CGRectGetWidth(self.bounds)/2.0);*/
+    
+    //Before layout, calculate the intrinsic size of the labels (the size they "want" to be), and add 20 to the height for some vertical padding.
+    CGSize maxSize = CGSizeMake(CGRectGetWidth(self.bounds), CGFLOAT_MAX);
+    CGSize usernameLabelSize = [self.usernameAndCaptionLabel sizeThatFits:maxSize];
+    CGSize commentLabelSize = [self.commentLabel sizeThatFits:maxSize];
+    
+    self.usernameAndCaptionLabelHeightConstraint.constant = usernameLabelSize.height + 20;
+    self.commentLabelHeightConstraint.constant = commentLabelSize.height + 20;
+    self.imageHeightConstraint.constant = self.mediaItem.image.size.height / self.mediaItem.image.size.width * CGRectGetWidth(self.contentView.bounds);
+    
+    //Hide the line between cells
     self.separatorInset = UIEdgeInsetsMake(0, CGRectGetWidth(self.bounds)/2.0, 0, CGRectGetWidth(self.bounds)/2.0);
     
     
@@ -181,16 +244,22 @@ static NSParagraphStyle *paragraphStyle;
     // Make a cell
     MediaTableViewCell *layoutCell = [[MediaTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"layoutCell"];
     
+   
     // Set it to the given width, and the maximum possible height
-    layoutCell.frame = CGRectMake(0, 0, width, CGFLOAT_MAX);
+    //layoutCell.frame = CGRectMake(0, 0, width, CGFLOAT_MAX);
     
     // Give it the media item
     layoutCell.mediaItem = mediaItem;
     
     // Make it adjust the image view and labels
-    [layoutCell layoutSubviews];
+    //[layoutCell layoutSubviews];
+    
+    layoutCell.frame = CGRectMake(0, 0, width, CGRectGetHeight(layoutCell.frame));
     
     // The height will be wherever the bottom of the comments label is
+    [layoutCell setNeedsLayout];
+    [layoutCell layoutIfNeeded];
+    
     return CGRectGetMaxY(layoutCell.commentLabel.frame);
 }
 
