@@ -141,9 +141,10 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        //[tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        
         Media *item = [DataSource sharedInstance].mediaItems[indexPath.row];
-        [[DataSource sharedInstance] deleteMediaItem:item];
+        //[[DataSource sharedInstance] deleteMediaItem:item];
+        [[DataSource sharedInstance] moveMediaItem:item];
         
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view

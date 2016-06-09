@@ -176,6 +176,10 @@
     [mutableArrayWithKVO removeObject:item];
 }
 
+-(void) moveMediaItem:(Media *)item {
+    NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"mediaItems"];
+    [mutableArrayWithKVO insertObject:item atIndex:0];
+}
 
 
 

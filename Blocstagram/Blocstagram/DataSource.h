@@ -18,4 +18,8 @@
 //declare method to add to DataSource that lets other classes delete a media item
 -(void) deleteMediaItem: (Media *)item;
 
+//declare method to add to DataSource that lets other classes move media item to the top
+-(void) moveMediaItem: (Media *)item;
+
+
 @end
