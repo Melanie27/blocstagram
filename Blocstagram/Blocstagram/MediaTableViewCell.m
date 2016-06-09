@@ -27,6 +27,7 @@ static UIColor *usernameLabelGray;
 static UIColor *commentLabelGray;
 static UIColor *linkColor;
 static UIColor *commentOrange;
+static UIColor *isEvenGreen;
 static NSParagraphStyle *paragraphStyle;
 
 @implementation MediaTableViewCell
@@ -41,6 +42,7 @@ static NSParagraphStyle *paragraphStyle;
     commentLabelGray = [UIColor colorWithRed:0.898 green:0.898 blue:0.898 alpha:1]; /*#e5e5e5*/
     linkColor = [UIColor colorWithRed:0.345 green:0.314 blue:0.427 alpha:1]; /*#58506d*/
     commentOrange = [UIColor orangeColor];
+    isEvenGreen = [UIColor greenColor];
     
     NSMutableParagraphStyle *mutableParagraphStyle = [[NSMutableParagraphStyle alloc] init];
     mutableParagraphStyle.headIndent = 20.0;
@@ -94,8 +96,10 @@ static NSParagraphStyle *paragraphStyle;
     
     //#4 only want username to be bold and purple so do the range of that
     NSRange usernameRange = [baseString rangeOfString:self.mediaItem.user.userName];
+    NSRange captionRange = [baseString rangeOfString:self.mediaItem.caption];
     [mutableUsernameAndCaptionString addAttribute:NSFontAttributeName value:[boldFont fontWithSize:usernameFontSize] range:usernameRange];
     [mutableUsernameAndCaptionString addAttribute:NSForegroundColorAttributeName value:linkColor range:usernameRange];
+    [mutableUsernameAndCaptionString addAttribute:NSKernAttributeName value:@(3.1) range:captionRange];
     
     return mutableUsernameAndCaptionString;
 }
@@ -112,20 +116,55 @@ static NSParagraphStyle *paragraphStyle;
 -(NSAttributedString *) commentString {
     NSMutableAttributedString *commentString = [[NSMutableAttributedString alloc] init];
     
+    BOOL coloredFirstComment = NO;
+    BOOL coloredSecondComment = NO;
+    
+    /*for (NSInteger commentIndex = 0; commentIndex< self.mediaItem.comments.count; commentIndex++) {
+        Comment *comment = self.mediaItem.comments[commentIndex];
+        
+        BOOL isEven = commentIndex % 2;
+    }*/
     for (Comment *comment in self.mediaItem.comments) {
         //make a string that says "username comment" followed by a line break
         NSString *baseString = [NSString stringWithFormat:@"%@, %@\n", comment.from.userName, comment.text];
         
-        //Change the color of the first comment to orange
-        //NSMutableAttributedString *firstCommentString = [[NSMutableAttributedString alloc]]
-       // NSLog([NSString stringWithFormat:@"%@", self.mediaItem.comments[0]]);
-        
         //Make an attributed string, with the "username" bold
         NSMutableAttributedString *oneCommentString = [[NSMutableAttributedString alloc] initWithString:baseString attributes:@{NSFontAttributeName: lightFont, NSParagraphStyleAttributeName : paragraphStyle}];
         
+        
         NSRange usernameRange = [baseString rangeOfString:comment.from.userName];
+        
+        
         [oneCommentString addAttribute:NSFontAttributeName value:boldFont range:usernameRange];
         [oneCommentString addAttribute:NSForegroundColorAttributeName value:linkColor range:usernameRange];
+        
+       
+
+        //Change the color of the first comment to orange
+        if (!coloredFirstComment) {
+            // get range for comment after username
+            //get length of entire comment and subtract usernameRange.length
+            NSRange restOfComment = NSMakeRange(usernameRange.length, oneCommentString.length - usernameRange.length);
+            // set orange attribute on range for comment after username
+            [oneCommentString addAttribute:NSForegroundColorAttributeName value:commentOrange range:restOfComment];
+            
+            coloredFirstComment = YES;
+        }
+        
+       
+        
+        //Right align every other comment
+        /*BOOL isEven = NO;
+        if (!isEven) {
+            //add range that is comment only
+            NSRange commentRange = [baseString rangeOfString:comment.text];
+            [oneCommentString addAttribute:NSForegroundColorAttributeName value:isEvenGreen range:commentRange];
+            
+            isEven = NO;
+            
+            
+        }*/
+        
         
         [commentString appendAttributedString:oneCommentString];
         
