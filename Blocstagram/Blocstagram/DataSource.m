@@ -25,6 +25,10 @@
 //add BOOL property to track whether a refresh is already in progress
 @property (nonatomic, assign) BOOL isRefreshing;
 
+//add BOOL property to track if loading old items is in progress
+
+@property (nonatomic, assign) BOOL isLoadingOlderItems;
+
 
 @end
 
@@ -208,6 +212,29 @@
     }
 }
 
+
+#pragma mark infinite scrolling
+
+-(void) requestOldItemsWithCompletionHandler:(NewItemCompletionBlock)completionHandler {
+    
+    if(self.isLoadingOlderItems == NO) {
+        self.isLoadingOlderItems = YES;
+    
+        Media *media = [[Media alloc] init];
+        media.user = [self randomUser];
+        media.image = [UIImage imageNamed:@"1.jpg"];
+        media.caption = [self randomSentence];
+        
+        NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"mediaItems"];
+        [mutableArrayWithKVO addObject:media];
+        
+        self.isLoadingOlderItems = NO;
+        
+        if (completionHandler) {
+            completionHandler(nil);
+        }
+    }
+}
 
 
 
