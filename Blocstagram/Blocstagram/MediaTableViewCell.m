@@ -51,6 +51,7 @@ static NSParagraphStyle *paragraphStyle;
     //where ends of lines should stop - negative values measures from right edge.
     mutableParagraphStyle.tailIndent = -20.0;
     mutableParagraphStyle.paragraphSpacingBefore = 5;
+    //mutableParagraphStyle.alignment = NSTextAlignmentRight;
     
     paragraphStyle = mutableParagraphStyle;
 }
@@ -117,13 +118,25 @@ static NSParagraphStyle *paragraphStyle;
     NSMutableAttributedString *commentString = [[NSMutableAttributedString alloc] init];
     
     BOOL coloredFirstComment = NO;
-    BOOL coloredSecondComment = NO;
+    //BOOL coloredSecondComment = NO;
     
-    /*for (NSInteger commentIndex = 0; commentIndex< self.mediaItem.comments.count; commentIndex++) {
+    for (NSInteger commentIndex = 0; commentIndex< self.mediaItem.comments.count; commentIndex++) {
         Comment *comment = self.mediaItem.comments[commentIndex];
         
+        NSString *baseString = [NSString stringWithFormat:@"%@", comment.text];
+        NSMutableAttributedString *evenCommentString = [[NSMutableAttributedString alloc] initWithString:baseString attributes:@{NSFontAttributeName: lightFont, NSParagraphStyleAttributeName : paragraphStyle}];
+        
+        NSRange wholeComment = [baseString rangeOfString:comment.text];
+        
         BOOL isEven = commentIndex % 2;
-    }*/
+        if (isEven) {
+            [evenCommentString addAttribute:NSParagraphStyleAttributeName value:NSTextAlignmentRight range:wholeComment];
+        
+            isEven = NO;
+        }
+    }
+    
+    
     for (Comment *comment in self.mediaItem.comments) {
         //make a string that says "username comment" followed by a line break
         NSString *baseString = [NSString stringWithFormat:@"%@, %@\n", comment.from.userName, comment.text];
