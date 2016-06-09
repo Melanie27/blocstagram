@@ -17,9 +17,14 @@
 @interface DataSource() {
     //an array must be accessible as an instance variable named _<key>
     NSMutableArray *_mediaItems;
+    
 }
 
 @property (nonatomic, strong) NSArray *mediaItems;
+
+//add BOOL property to track whether a refresh is already in progress
+@property (nonatomic, assign) BOOL isRefreshing;
+
 
 @end
 
@@ -176,8 +181,32 @@
     [mutableArrayWithKVO removeObject:item];
 }
 
+#pragma mark pull refresh
 
-
+-(void) requestNewItemsWithCompletionHandler:(NewItemCompletionBlock)completionHandler {
+    
+    //#1
+    if (self.isRefreshing == NO) {
+        self.isRefreshing = YES;
+        
+        //#2
+        //create new random media object and append it to the front of the array
+        Media *media = [[Media alloc] init];
+        media.user =[self randomUser];
+        media.image = [UIImage imageNamed:@"10.jpg"];
+        media.caption = [self randomSentence];
+        
+        NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"mediaItems"];
+        [mutableArrayWithKVO insertObject:media atIndex:0];
+        
+        //no longer in the process of refreshing
+        self.isRefreshing = NO;
+        
+        if(completionHandler) {
+            completionHandler(nil);
+        }
+    }
+}
 
 
 

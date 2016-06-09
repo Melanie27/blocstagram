@@ -37,6 +37,11 @@
     //Register for KVO of mediaITems inside of viewDidLoad
     [[DataSource sharedInstance] addObserver:self forKeyPath:@"mediaItems" options:0 context:nil];
     
+    //support the pull-to-refresh gesture
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(refreshControlDidFire:)forControlEvents:UIControlEventValueChanged];
+    
+    
     // return table view managed by the controller, tell the table how to create new cells
     [self.tableView registerClass:[MediaTableViewCell class] forCellReuseIdentifier:@"mediaCell"];
     
@@ -127,6 +132,12 @@
     [[DataSource sharedInstance] removeObserver:self forKeyPath:@"mediaItems"];
 }
 
+#pragma mark refresh
+-(void)refreshControlDidFire:(UIRefreshControl *) sender {
+    [[DataSource sharedInstance] requestNewItemsWithCompletionHandler:^(NSError *error) {
+        [sender endRefreshing];
+    }];
+}
 
 /*
 // Override to support conditional editing of the table view.
