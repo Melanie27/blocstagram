@@ -30,4 +30,7 @@ typedef void(^NewItemCompletionBlock)(NSError *error);
 //method for the table view to call when the user scrolls past the bottom
 -(void) requestOldItemsWithCompletionHandler:(NewItemCompletionBlock)completionHandler;
 
+//store Instagram Client ID
++ (NSString *) instagramClientID;
+
 @end

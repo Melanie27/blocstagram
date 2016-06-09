@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9B0D603D1D0775D100ECD795 /* MediaTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B0D603C1D0775D100ECD795 /* MediaTableViewCell.m */; };
+		9B0D60401D0A328800ECD795 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B0D603F1D0A328800ECD795 /* LoginViewController.m */; };
 		9B17EC831D00D473000B2B10 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B17EC821D00D473000B2B10 /* main.m */; };
 		9B17EC861D00D473000B2B10 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B17EC851D00D473000B2B10 /* AppDelegate.m */; };
 		9B17EC8E1D00D473000B2B10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B17EC8D1D00D473000B2B10 /* Assets.xcassets */; };
@@ -52,6 +53,8 @@
 /* Begin PBXFileReference section */
 		9B0D603B1D0775D100ECD795 /* MediaTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaTableViewCell.h; sourceTree = "<group>"; };
 		9B0D603C1D0775D100ECD795 /* MediaTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaTableViewCell.m; sourceTree = "<group>"; };
+		9B0D603E1D0A328800ECD795 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		9B0D603F1D0A328800ECD795 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		9B17EC7E1D00D473000B2B10 /* Blocstagram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Blocstagram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B17EC821D00D473000B2B10 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		9B17EC841D00D473000B2B10 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -147,8 +150,10 @@
 				9B0D603C1D0775D100ECD795 /* MediaTableViewCell.m */,
 				9B17ECD71D0624B7000B2B10 /* Comment.h */,
 				9B17ECD81D0624B7000B2B10 /* Comment.m */,
-				9B17ECDA1D06254F000B2B10 /* DataSource.h */,
 				9B17ECDB1D06254F000B2B10 /* DataSource.m */,
+				9B17ECDA1D06254F000B2B10 /* DataSource.h */,
+				9B0D603E1D0A328800ECD795 /* LoginViewController.h */,
+				9B0D603F1D0A328800ECD795 /* LoginViewController.m */,
 				9B17EC841D00D473000B2B10 /* AppDelegate.h */,
 				9B17EC851D00D473000B2B10 /* AppDelegate.m */,
 				9B17EC8D1D00D473000B2B10 /* Assets.xcassets */,
@@ -348,6 +353,7 @@
 				9B0D603D1D0775D100ECD795 /* MediaTableViewCell.m in Sources */,
 				9B17ECD61D062198000B2B10 /* Media.m in Sources */,
 				9B17EC861D00D473000B2B10 /* AppDelegate.m in Sources */,
+				9B0D60401D0A328800ECD795 /* LoginViewController.m in Sources */,
 				9B17ECDC1D06254F000B2B10 /* DataSource.m in Sources */,
 				9B17EC831D00D473000B2B10 /* main.m in Sources */,
 				9B17ECCE1D00DB8F000B2B10 /* ImagesTableViewController.m in Sources */,

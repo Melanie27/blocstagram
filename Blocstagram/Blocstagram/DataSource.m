@@ -236,7 +236,11 @@
     }
 }
 
+//instagram clientID
 
++ (NSString *) instagramClientID {
+    return @"4e032fb50fa74aaf8a150e68a1cb6e48";
+}
 
 
 
