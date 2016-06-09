@@ -20,28 +20,12 @@
 
 @implementation ImagesTableViewController
 
-/*
-+(instancetype) items {
-    //the dispatch_once function ensures we only create a single instance of this class. function takes a block of code and runs it only the first time it is called
-    static dispatch_once_t once;
-    
-    
-    static id items;
-    dispatch_once(&once, ^{
-        items = [[self alloc] init];
-        
-    });
-    return items;
-}
- */
 
 -(NSArray*)items {
     return [[DataSource sharedInstance] mediaItems];
 }
 
 //Override the table view controller's initializer to create an empty array
-
-
 
 - (instancetype)initWithStyle:(UITableViewStyle)style
 {
@@ -164,7 +148,6 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
     return [self items].count;
-    //return [DataSource sharedInstance].mediaItems.count;
 }
 
 
@@ -193,7 +176,7 @@
     }
     
    
-//    Media *item = [DataSource sharedInstance].mediaItems[indexPath.row];
+
     Media *item = [self items][indexPath.row];
     imageView.image = item.image;
     
