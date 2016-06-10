@@ -54,8 +54,6 @@
     self = [super init];
     
     if (self) {
-        //comment out call to generate random data
-        //[self addRandomData];
         
         //register and respond to notification
         [self registerForAccessTokenNotification];
@@ -64,14 +62,13 @@
     return self;
 }
 
--(void) registerForAccessTokenNotification {
+
+- (void) registerForAccessTokenNotification {
     [[NSNotificationCenter defaultCenter] addObserverForName:LoginViewControllerDidGetAccessTokenNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
         self.accessToken = note.object;
-        
-        //Got a token; populate the initial data
-        [self populateDataWithParameters:nil];
     }];
 }
+
 
 #pragma mark - Key/Value Observing
 
@@ -149,7 +146,7 @@
 //instagram clientID
 
 + (NSString *) instagramClientID {
-    return @"<#4e032fb50fa74aaf8a150e68a1cb6e48>";
+    return @"4e032fb50fa74aaf8a150e68a1cb6e48";
 }
 
 //method to request user's feed

@@ -23,18 +23,15 @@
     //manually create and assign a view controller as the app's root view controller because we deleted the main storyboard
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    //create the data source (so it can receive access token notification)
-    [DataSource sharedInstance];
+    [DataSource sharedInstance]; // create the data source (so it can receive the access token notification)
     
     UINavigationController *navVC = [[UINavigationController alloc] init];
     LoginViewController *loginVC = [[LoginViewController alloc] init];
     [navVC setViewControllers:@[loginVC] animated:YES];
     
     [[NSNotificationCenter defaultCenter] addObserverForName:LoginViewControllerDidGetAccessTokenNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-       
         ImagesTableViewController *imagesVC = [[ImagesTableViewController alloc] init];
         [navVC setViewControllers:@[imagesVC] animated:YES];
-        
     }];
     
     self.window.rootViewController = navVC;
