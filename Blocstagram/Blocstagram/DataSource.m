@@ -123,7 +123,7 @@
 }
 
 -(NSString *) randomStringOfLength:(NSUInteger) len {
-    NSString *alphabet = @"abcdefghijklmnopqrstuvwxyz";
+    NSString *alphabet = @"abcdefghijklmnopqrstuvwxyz ";
     
     NSMutableString *s = [NSMutableString string];
     

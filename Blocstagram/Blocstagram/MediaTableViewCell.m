@@ -29,6 +29,7 @@ static UIColor *linkColor;
 static UIColor *commentOrange;
 static UIColor *isEvenGreen;
 static NSParagraphStyle *paragraphStyle;
+static NSParagraphStyle *evenParagraphStyle;
 
 @implementation MediaTableViewCell
 
@@ -51,9 +52,20 @@ static NSParagraphStyle *paragraphStyle;
     //where ends of lines should stop - negative values measures from right edge.
     mutableParagraphStyle.tailIndent = -20.0;
     mutableParagraphStyle.paragraphSpacingBefore = 5;
-    //mutableParagraphStyle.alignment = NSTextAlignmentRight;
+    mutableParagraphStyle.alignment = NSTextAlignmentLeft;
     
     paragraphStyle = mutableParagraphStyle;
+
+    NSMutableParagraphStyle *mutableParagraphStyle2 = [[NSMutableParagraphStyle alloc] init];
+    mutableParagraphStyle2.headIndent = 20.0;
+    mutableParagraphStyle2.firstLineHeadIndent = 20.0;
+    
+    //where ends of lines should stop - negative values measures from right edge.
+    mutableParagraphStyle2.tailIndent = -20.0;
+    mutableParagraphStyle2.paragraphSpacingBefore = 5;
+    mutableParagraphStyle.alignment = NSTextAlignmentRight;
+
+    evenParagraphStyle = mutableParagraphStyle2;
 }
 
 
@@ -123,19 +135,46 @@ static NSParagraphStyle *paragraphStyle;
     for (NSInteger commentIndex = 0; commentIndex< self.mediaItem.comments.count; commentIndex++) {
         Comment *comment = self.mediaItem.comments[commentIndex];
         
-        NSString *baseString = [NSString stringWithFormat:@"%@", comment.text];
-        NSMutableAttributedString *evenCommentString = [[NSMutableAttributedString alloc] initWithString:baseString attributes:@{NSFontAttributeName: lightFont, NSParagraphStyleAttributeName : paragraphStyle}];
+        //make a string that says "username comment" followed by a line break
+        NSString *baseString = [NSString stringWithFormat:@"%@, %@\n", comment.from.userName, comment.text];
+
+        //Make an attributed string, with the "username" bold
+        NSMutableAttributedString *oneCommentString = [[NSMutableAttributedString alloc] initWithString:baseString attributes:@{NSFontAttributeName: lightFont, NSParagraphStyleAttributeName: paragraphStyle}];
+ 
+        NSRange usernameRange = [baseString rangeOfString:comment.from.userName];
         
-        NSRange wholeComment = [baseString rangeOfString:comment.text];
+        
+        [oneCommentString addAttribute:NSFontAttributeName value:boldFont range:usernameRange];
+        [oneCommentString addAttribute:NSForegroundColorAttributeName value:linkColor range:usernameRange];
+
+//        NSMutableAttributedString *evenCommentString = [[NSMutableAttributedString alloc] initWithString:baseString attributes:@{NSFontAttributeName: lightFont, NSParagraphStyleAttributeName : paragraphStyle}];
+        
+        NSRange wholeComment = [baseString rangeOfString:baseString];
+        
+        
+        //Change the color of the first comment to orange
+        if (!coloredFirstComment) {
+            // get range for comment after username
+            //get length of entire comment and subtract usernameRange.length
+            NSRange restOfComment = NSMakeRange(usernameRange.length, oneCommentString.length - usernameRange.length);
+            // set orange attribute on range for comment after username
+            [oneCommentString addAttribute:NSForegroundColorAttributeName value:commentOrange range:restOfComment];
+            
+            coloredFirstComment = YES;
+        }
         
         BOOL isEven = commentIndex % 2;
         if (isEven) {
-            [evenCommentString addAttribute:NSParagraphStyleAttributeName value:NSTextAlignmentRight range:wholeComment];
-        
-            isEven = NO;
+            [oneCommentString addAttribute:NSParagraphStyleAttributeName value:evenParagraphStyle range:wholeComment];
+        } else {
+            [oneCommentString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:wholeComment];
+            //            NSParagraphStyleAttributeName : paragraphStyle
         }
+        
+        [commentString appendAttributedString:oneCommentString];
+
     }
-    
+    /*
     
     for (Comment *comment in self.mediaItem.comments) {
         //make a string that says "username comment" followed by a line break
@@ -166,23 +205,13 @@ static NSParagraphStyle *paragraphStyle;
         
        
         
-        //Right align every other comment
-        /*BOOL isEven = NO;
-        if (!isEven) {
-            //add range that is comment only
-            NSRange commentRange = [baseString rangeOfString:comment.text];
-            [oneCommentString addAttribute:NSForegroundColorAttributeName value:isEvenGreen range:commentRange];
-            
-            isEven = NO;
-            
-            
-        }*/
+
         
         
         [commentString appendAttributedString:oneCommentString];
         
     }
-    
+    */
     return commentString;
 }
 
