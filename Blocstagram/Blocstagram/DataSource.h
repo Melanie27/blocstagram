@@ -33,4 +33,7 @@ typedef void(^NewItemCompletionBlock)(NSError *error);
 //store Instagram Client ID
 + (NSString *) instagramClientID;
 
+//store Instagram access token
+@property (nonatomic, strong, readonly) NSString *accessToken;
+
 @end

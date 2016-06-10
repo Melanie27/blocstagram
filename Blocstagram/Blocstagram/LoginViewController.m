@@ -19,18 +19,36 @@
 
 NSString *const LoginViewControllerDidGetAccessTokenNotification = @"LoginViewControllerDidGetAccessTokenNotification";
 
+-(NSString *)redirectURI {
+    return @"<#http://bloc.io#>";
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    //The webview should send the user to a special Instagram page to login where we get their access token
     UIWebView *webView = [[UIWebView alloc] init];
     webView.delegate = self;
     
     [self.view addSubview:webView];
-    self.webView;
+    self.webView = webView;
     
     self.title = NSLocalizedString(@"Login", @"Login");
+    
+    NSString *urlString = [NSString stringWithFormat:@"https://instagram.com/oauth/authorize/?client_id=%@&redirect_uri=%@&response_type=token", [DataSource instagramClientID], [self redirectURI]];
+    NSURL *url = [NSURL URLWithString:urlString];
+    
+    if (url) {
+        NSURLRequest *request = [NSURLRequest requestWithURL:url];
+        [self.webView loadRequest:request];
+    }
+}
+
+
+//set web view's frame
+-(void) viewWillLayoutSubviews {
+    self.webView.frame = self.view.bounds;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -38,9 +56,24 @@ NSString *const LoginViewControllerDidGetAccessTokenNotification = @"LoginViewCo
     // Dispose of any resources that can be recreated.
 }
 
--(NSString *)redirectURI {
-    return @"http://bloc.io";
+-(void) dealloc {
+    //removing this line could cause flickering effect when you relaunch the app after logging in
+    [self clearInstagramCookies];
+    // before releasing an instance of UIWebView for which you set a delegate, you must first set the UIWebView delegate property top nil
+    
+    self.webView.delegate = nil;
 }
+
+//clear instagram cookies to prevent caching the credentials in the cookie jar
+-(void) clearInstagramCookies {
+    for(NSHTTPCookie *cookie in [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]) {
+        NSRange domainRange = [cookie.domain rangeOfString:@"instagram.com"];
+        if (domainRange.location != NSNotFound) {
+            [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
+        }
+    }
+}
+
 
 /*
 #pragma mark - Navigation
@@ -51,5 +84,24 @@ NSString *const LoginViewControllerDidGetAccessTokenNotification = @"LoginViewCo
     // Pass the selected object to the new view controller.
 }
 */
+
+//method searches for a URL containing the redirect URI and sets the access token to everything after access_token=
+
+-(BOOL) webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    NSString *urlString = request.URL.absoluteString;
+    if([urlString hasPrefix:[self redirectURI]]) {
+        //this contains our auth token
+        
+        NSRange rangeOfAccessTokenParameter = [urlString rangeOfString:@"access_token="];
+        NSUInteger indexOfTokenStarting = rangeOfAccessTokenParameter.location + rangeOfAccessTokenParameter.length;
+        NSString *accessToken = [urlString substringFromIndex:indexOfTokenStarting];
+        [[NSNotificationCenter defaultCenter] postNotificationName:LoginViewControllerDidGetAccessTokenNotification object:accessToken];
+        
+        return NO;
+        
+    }
+    
+    return YES;
+}
 
 @end
