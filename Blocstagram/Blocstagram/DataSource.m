@@ -146,7 +146,7 @@
 //instagram clientID
 
 + (NSString *) instagramClientID {
-    return @"<#b23139c4949c46cf964cf447fbe798ad#>";
+    return @"4e032fb50fa74aaf8a150e68a1cb6e48";
 }
 
 //method to request user's feed
