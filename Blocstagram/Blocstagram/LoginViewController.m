@@ -43,8 +43,16 @@ NSString *const LoginViewControllerDidGetAccessTokenNotification = @"LoginViewCo
         NSURLRequest *request = [NSURLRequest requestWithURL:url];
         [self.webView loadRequest:request];
     }
+    
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc]initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(backButtonPressed)];
+    self.navigationItem.leftBarButtonItem = backButton;
 }
 
+
+- (void)backButtonPressed {
+   NSLog(@"GO BACK NOW");
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 //set web view's frame
 - (void) viewWillLayoutSubviews {
