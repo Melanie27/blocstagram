@@ -11,7 +11,7 @@
 #import <UIKit/UIKit.h>
 
 //a collection of properties is enough to create a basic model
-@interface User : NSObject
+@interface User : NSObject <NSCoding>
 
 @property(nonatomic, strong) NSString *idNumber;
 @property(nonatomic, strong) NSString *userName;
