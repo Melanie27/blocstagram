@@ -36,6 +36,16 @@ NSString *const LoginViewControllerDidGetAccessTokenNotification = @"LoginViewCo
     
     self.title = NSLocalizedString(@"Login", @"Login");
     
+    
+    [self reloadLoginPage];
+    
+    //self.navigationItem.hidesBackButton = YES;
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc]initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(backButtonPressed)];
+    self.navigationItem.leftBarButtonItem = backButton;
+}
+
+
+-(void)reloadLoginPage {
     //webview should send the user to special instagram login page
     
     NSString *urlString = [NSString stringWithFormat:@"https://api.instagram.com/oauth/authorize/?client_id=%@&redirect_uri=%@&response_type=token", [DataSource instagramClientID], [self redirectURI]];
@@ -45,20 +55,18 @@ NSString *const LoginViewControllerDidGetAccessTokenNotification = @"LoginViewCo
         NSURLRequest *request = [NSURLRequest requestWithURL:url];
         [self.webView loadRequest:request];
     }
-    
-    //self.navigationItem.hidesBackButton = YES;
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc]initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(backButtonPressed)];
-    self.navigationItem.leftBarButtonItem = backButton;
+ 
 }
-
 
 - (void)backButtonPressed {
    NSLog(@"GO BACK NOW");
     //[self dismissViewControllerAnimated:YES completion:nil];
-    
-    [self.navigationController popViewControllerAnimated:YES];
+    //[self.navigationController popViewControllerAnimated:YES];
+    [self reloadLoginPage];
     
 }
+
+
 
 //set web view's frame
 - (void) viewWillLayoutSubviews {
