@@ -79,6 +79,15 @@
     //return image.size.height / image.size.width * CGRectGetWidth(self.view.frame);
     return [MediaTableViewCell heightForMediaItem:item width:CGRectGetWidth(self.view.frame)];
 }
+//making rough height estimates to avoid calculating the height of every cell, calculates one at a time as they scroll into view
+- (CGFloat) tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    Media *item = [DataSource sharedInstance].mediaItems[indexPath.row];
+    if (item.image) {
+        return 350;
+    } else {
+        return 150;
+    }
+}
 
 //Handling Key-Value notifications
 //1 check if the update is coming from the DataSource object we registered it with
@@ -179,6 +188,8 @@
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
 }
+
+
 
 
 /*
