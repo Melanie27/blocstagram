@@ -36,6 +36,8 @@ NSString *const LoginViewControllerDidGetAccessTokenNotification = @"LoginViewCo
     
     self.title = NSLocalizedString(@"Login", @"Login");
     
+    //webview should send the user to special instagram login page
+    
     NSString *urlString = [NSString stringWithFormat:@"https://api.instagram.com/oauth/authorize/?client_id=%@&redirect_uri=%@&response_type=token", [DataSource instagramClientID], [self redirectURI]];
     NSURL *url = [NSURL URLWithString:urlString];
     
@@ -56,6 +58,7 @@ NSString *const LoginViewControllerDidGetAccessTokenNotification = @"LoginViewCo
     // Dispose of any resources that can be recreated.
 }
 
+//when the login controller gets deallocated 1) set web view's delegate to nil, clear cookies set by instagram
 - (void) dealloc {
     // Removing this line can cause a flickering effect when you relaunch the app after logging in, as the web view is briefly displayed, automatically authenticates with cookies, returns the access token, and dismisses the login view, sometimes in less than a second.
     [self clearInstagramCookies];
