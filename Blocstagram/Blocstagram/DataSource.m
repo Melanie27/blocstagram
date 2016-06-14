@@ -57,16 +57,15 @@
     if (self) {
         
         //check for token and register if its not there, or jump to data population if it is there
-        
         self.accessToken = [UICKeyChainStore stringForKey:@"access token"];
         
         if (!self.accessToken) {
             [self registerForAccessTokenNotification];
             
         } else {
-            //[self populateDataWithParameters:nil completionHandler:nil];
+            [self populateDataWithParameters:nil completionHandler:nil];
             //read the file at lauch in init
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            /*dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 NSString *fullPath = [self pathForFilename:NSStringFromSelector(@selector(mediaItems))];
                 NSArray *storedMediaItems = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPath];
                 
@@ -86,7 +85,7 @@
                         [self populateDataWithParameters:nil completionHandler:nil];
                     }
                 });
-            });
+            });*/
         }
     }
     
@@ -99,7 +98,7 @@
         self.accessToken = note.object;
         
         //save the token
-        [UICKeyChainStore setString:self.accessToken forKey:@"access token"];
+       [UICKeyChainStore setString:self.accessToken forKey:@"access token"];
         
         
         // Got a token; populate the initial data
