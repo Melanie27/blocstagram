@@ -81,6 +81,9 @@
                             [self downloadImageForMediaItem:mediaItem];
                         }
                         
+                        //if cached images are found on disc and displayed, try to fetch newer content from the API
+                        [self populateDataWithParameters:nil completionHandler:nil];
+                        
                     } else {
                         [self populateDataWithParameters:nil completionHandler:nil];
                     }
