@@ -7,9 +7,11 @@
 //
 
 #import "MediaFullScreenViewController.h"
+#import "MediaTableViewCell.h"
 #import "Media.h"
 
-@interface MediaFullScreenViewController () <UIScrollViewDelegate>
+@interface MediaFullScreenViewController () <MediaTableViewCellDelegate>
+
 
 //property to store the media object
 @property (nonatomic, strong) Media *media;
@@ -68,7 +70,28 @@
     [self.scrollView addGestureRecognizer:self.tap];
     [self.scrollView addGestureRecognizer:self.doubleTap];
     
+    
+    
+    //Add Share Button
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [button setTitle:@"Share" forState:UIControlStateNormal];
+    [button setBackgroundColor: [UIColor whiteColor]];
+    [button addTarget:self action:@selector(socialSharing:) forControlEvents:UIControlEventTouchUpInside];
+    
+    button.frame = CGRectMake(80.0, 210.0, 160.0, 40.0);
+    // Calculate the top right corner
+    
+    [self.view addSubview:button];
+    
 }
+
+
+-(IBAction)socialSharing:(id)sender {
+    NSLog(@"hi melanie");
+    
+    //[self didLongPressImageView];
+    
+    }
 
 //when the user single-taps, dismiss the view controller
 

@@ -46,6 +46,8 @@
     // return table view managed by the controller, tell the table how to create new cells
     [self.tableView registerClass:[MediaTableViewCell class] forCellReuseIdentifier:@"mediaCell"];
     
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -99,9 +101,11 @@
         UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
         [self presentViewController:activityVC animated:YES completion:nil];
     }
-    
+
     
 }
+
+
 
 //Override the default height, which is 44 points
 -(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
