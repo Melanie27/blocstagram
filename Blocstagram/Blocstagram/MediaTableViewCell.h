@@ -8,13 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-@class Media;
+@class Media, MediaTableViewCell;
+
+@protocol MediaTableViewCellDelegate <NSObject>
+
+-(void) cell:(MediaTableViewCell *)cell didTapImageView:(UIImageView *)imageView;
+@end
 
 //each cell will be associated with a single media item
 
 @interface MediaTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) Media *mediaItem;
+@property(nonatomic, weak) id <MediaTableViewCellDelegate> delegate;
 //+ signifies that this method belongs to the class
 +(CGFloat) heightForMediaItem:(Media *)mediaItem width:(CGFloat)width;
 
