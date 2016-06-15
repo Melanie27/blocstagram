@@ -26,6 +26,7 @@
 
 //add a property for the gesture recognizer
 @property (nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
+@property (nonatomic, strong) UILongPressGestureRecognizer *longPressGestureRecognizer;
 
 @end
 
@@ -76,6 +77,12 @@ static NSParagraphStyle *paragraphStyle;
         self.tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapFired:)];
         self.tapGestureRecognizer.delegate = self;
         [self.mediaImageView addGestureRecognizer:self.tapGestureRecognizer];
+        
+        //init and add long press
+        
+        self.longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressFired:)];
+        self.longPressGestureRecognizer.delegate = self;
+        [self.mediaImageView addGestureRecognizer:self.longPressGestureRecognizer];
         
         
         self.usernameAndCaptionLabel = [[UILabel alloc] init];
@@ -149,6 +156,13 @@ static NSParagraphStyle *paragraphStyle;
 -(void) tapFired:(UITapGestureRecognizer *)sender {
     
     [self.delegate cell:self didTapImageView:self.mediaImageView];
+}
+
+//when long press is fired inform the delegate
+-(void) longPressFired:(UILongPressGestureRecognizer *)sender {
+    if(sender.state == UIGestureRecognizerStateBegan) {
+        [self.delegate cell:self didLongPressImageView:self.mediaImageView];
+    }
 }
 
 #pragma mark - UIGestureRecognizerDelegate

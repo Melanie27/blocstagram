@@ -13,6 +13,11 @@
 @protocol MediaTableViewCellDelegate <NSObject>
 
 -(void) cell:(MediaTableViewCell *)cell didTapImageView:(UIImageView *)imageView;
+
+//add delegate method for sharing
+
+-(void) cell:(MediaTableViewCell *)cell didLongPressImageView:(UIImageView *)imageView;
+
 @end
 
 //each cell will be associated with a single media item
