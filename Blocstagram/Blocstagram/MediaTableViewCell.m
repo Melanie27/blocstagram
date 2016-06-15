@@ -11,7 +11,8 @@
 #import "Comment.h"
 #import "User.h"
 
-@interface MediaTableViewCell()
+//declare that this class confroms to gesture rec delegate protocol
+@interface MediaTableViewCell() <UIGestureRecognizerDelegate>
 //why are these properties in implementation and not header??
 
 @property (nonatomic, strong) UIImageView *mediaImageView;
@@ -23,6 +24,9 @@
 @property (nonatomic, strong) NSLayoutConstraint *usernameAndCaptionLabelHeightConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *commentLabelHeightConstraint;
 
+//add a property for the gesture recognizer
+@property (nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
+@property (nonatomic, strong) UILongPressGestureRecognizer *longPressGestureRecognizer;
 
 @end
 
@@ -65,6 +69,22 @@ static NSParagraphStyle *paragraphStyle;
         //initialization code
         
         self.mediaImageView = [[UIImageView alloc] init];
+        
+        //add gesture recog to the image view
+       
+        self.mediaImageView.userInteractionEnabled = YES;
+        
+        self.tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapFired:)];
+        self.tapGestureRecognizer.delegate = self;
+        [self.mediaImageView addGestureRecognizer:self.tapGestureRecognizer];
+        
+        //init and add long press
+        
+        self.longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressFired:)];
+        self.longPressGestureRecognizer.delegate = self;
+        [self.mediaImageView addGestureRecognizer:self.longPressGestureRecognizer];
+        
+        
         self.usernameAndCaptionLabel = [[UILabel alloc] init];
         
         //0 allows you to use as many lines as needed
@@ -128,6 +148,27 @@ static NSParagraphStyle *paragraphStyle;
     
     return self;
     
+}
+
+#pragma mark - Image View
+
+//add the target method, which will call cell:didTapImageView
+-(void) tapFired:(UITapGestureRecognizer *)sender {
+    
+    [self.delegate cell:self didTapImageView:self.mediaImageView];
+}
+
+//when long press is fired inform the delegate
+-(void) longPressFired:(UILongPressGestureRecognizer *)sender {
+    if(sender.state == UIGestureRecognizerStateBegan) {
+        [self.delegate cell:self didLongPressImageView:self.mediaImageView];
+    }
+}
+
+#pragma mark - UIGestureRecognizerDelegate
+//make sure the gesture recognizer doesn't fire when cell is in editing mode
+-(BOOL) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    return self.isEditing == NO;
 }
 
 - (NSAttributedString *) usernameAndCaptionString {
