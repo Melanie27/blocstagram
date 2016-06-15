@@ -7,10 +7,9 @@
 //
 
 #import "MediaFullScreenViewController.h"
-#import "MediaTableViewCell.h"
 #import "Media.h"
 
-@interface MediaFullScreenViewController () <MediaTableViewCellDelegate>
+@interface MediaFullScreenViewController () <UIScrollViewDelegate>
 
 
 //property to store the media object
