@@ -65,7 +65,7 @@
         } else {
             [self populateDataWithParameters:nil completionHandler:nil];
             //read the file at lauch in init
-            /*dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 NSString *fullPath = [self pathForFilename:NSStringFromSelector(@selector(mediaItems))];
                 NSArray *storedMediaItems = [NSKeyedUnarchiver unarchiveObjectWithFile:fullPath];
                 
@@ -85,7 +85,7 @@
                         [self populateDataWithParameters:nil completionHandler:nil];
                     }
                 });
-            });*/
+            });
         }
     }
     
@@ -99,7 +99,6 @@
         
         //save the token
        [UICKeyChainStore setString:self.accessToken forKey:@"access token"];
-        
         
         // Got a token; populate the initial data
         [self populateDataWithParameters:nil completionHandler:nil];
@@ -294,9 +293,11 @@
 }
 
 //method to write to the file when new data arrives
--(void) saveImages {
+//reading or writing to disc can be slow so use async
+- (void) saveImages {
+    
     if (self.mediaItems.count > 0) {
-        //write the changes to disc
+        // Write the changes to disk
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSUInteger numberOfItemsToSave = MIN(self.mediaItems.count, 50);
             NSArray *mediaItemsToSave = [self.mediaItems subarrayWithRange:NSMakeRange(0, numberOfItemsToSave)];
@@ -305,12 +306,13 @@
             NSData *mediaItemData = [NSKeyedArchiver archivedDataWithRootObject:mediaItemsToSave];
             
             NSError *dataError;
-            BOOL wroteSucessfully = [mediaItemData writeToFile:fullPath options:NSDataWritingAtomic | NSDataWritingFileProtectionCompleteUnlessOpen error:&dataError];
+            BOOL wroteSuccessfully = [mediaItemData writeToFile:fullPath options:NSDataWritingAtomic | NSDataWritingFileProtectionCompleteUnlessOpen error:&dataError];
             
-            if (!wroteSucessfully) {
+            if (!wroteSuccessfully) {
                 NSLog(@"Couldn't write file: %@", dataError);
             }
         });
+        
     }
 }
 
@@ -334,6 +336,7 @@
                         NSUInteger index = [mutableArrayWithKVO indexOfObject:mediaItem];
                         [mutableArrayWithKVO replaceObjectAtIndex:index withObject:mediaItem];
                         
+                        //dave the images when a download completes
                         [self saveImages];
                     });
                 }
@@ -347,7 +350,7 @@
 //save the file to disc and check for it at launch
 //method to create the full path to a file given a filename
 //creates string containing absolute path to the user's documents directory
--(NSString *) pathForFilename:(NSString *) filename {
+- (NSString *) pathForFilename:(NSString *) filename {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths firstObject];
     NSString *dataPath = [documentsDirectory stringByAppendingPathComponent:filename];
