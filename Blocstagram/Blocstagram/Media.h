@@ -8,6 +8,13 @@
 
 
 #import <UIKit/UIKit.h>
+// enum declares MediaDownloadState as equiv to NSInteger with 4 predefined values
+typedef NS_ENUM(NSInteger, MediaDownloadState) {
+    MediaDownloadStateNeedsImage             = 0,
+    MediaDownloadStateDownloadInProgress     = 1,
+    MediaDownloadStateNonRecoverableError    = 2,
+    MediaDownloadStateHasImage               = 3
+};
 
 @class User;
 
@@ -17,6 +24,11 @@
 @property (nonatomic, strong) User *user;
 @property (nonatomic, strong) NSURL *mediaURL;
 @property (nonatomic, strong) UIImage *image;
+
+//track individual media item's download state in a property
+//assign because it is NSInteger - a simple type
+@property (nonatomic, assign) MediaDownloadState downloadState;
+
 @property (nonatomic, strong) NSString *caption;
 @property (nonatomic, strong) NSArray *comments;
 - (instancetype) initWithDictionary:(NSDictionary *)mediaDictionary;
