@@ -99,21 +99,8 @@
         UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
         [self presentViewController:activityVC animated:YES completion:nil];
     }
-}
-
-//connect the cell to the new data source method that performs POST and DELETE requests
--(void) cellDidPressLikeButton:(MediaTableViewCell *)cell {
-    Media *item = cell.mediaItem;
     
-    [[DataSource sharedInstance] toggleLikeOnMediaItem:item withCompletionHandler:^{
-        if(cell.mediaItem == item) {
-            //update button's appearance
-            cell.mediaItem = item;
-        }
-    }];
     
-    //update button's appearance
-    cell.mediaItem = item;
 }
 
 //check whether we need the images just before a cell displays
