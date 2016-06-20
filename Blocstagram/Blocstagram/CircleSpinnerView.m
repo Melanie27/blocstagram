@@ -11,7 +11,7 @@
 
 @interface CircleSpinnerView ()
 //add property for CAShapeLayer
-@property (nonatomic, strong) CAShapeLayer *circleLayer;
+ @property (nonatomic, strong) CAShapeLayer *circleLayer;
 
 @end
 
@@ -143,17 +143,5 @@
     _strokeThickness = strokeThickness;
     _circleLayer.lineWidth = _strokeThickness;
 }
-
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
-
-
-
 
 @end

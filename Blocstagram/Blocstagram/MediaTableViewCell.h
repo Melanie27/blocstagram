@@ -18,6 +18,8 @@
 
 -(void) cell:(MediaTableViewCell *)cell didLongPressImageView:(UIImageView *)imageView;
 
+- (void) cellDidPressLikeButton:(MediaTableViewCell *)cell;
+
 @end
 
 //each cell will be associated with a single media item

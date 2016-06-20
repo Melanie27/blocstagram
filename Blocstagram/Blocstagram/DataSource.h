@@ -32,6 +32,9 @@ typedef void(^NewItemCompletionBlock)(NSError *error);
 
 //we want other classes to be able to request that images be downloaded, so add this method to public interface
 -(void) downloadImageForMediaItem: (Media *)mediaItem;
+
+ - (void) toggleLikeOnMediaItem:(Media *)mediaItem withCompletionHandler:(void (^)(void))completionHandler;
+
 //store Instagram Client ID
 + (NSString *) instagramClientID;
 
