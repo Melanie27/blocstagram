@@ -19,6 +19,7 @@
 @property (nonatomic, strong) UIImageView *mediaImageView;
 @property (nonatomic, strong) UILabel *usernameAndCaptionLabel;
 @property (nonatomic, strong) UILabel *commentLabel;
+@property (nonatomic, strong) UILabel *likeLabel;
 
 //add properties for auto layout
 @property (nonatomic, strong) NSLayoutConstraint *imageHeightConstraint;
@@ -98,11 +99,15 @@ static NSParagraphStyle *paragraphStyle;
         self.commentLabel.numberOfLines = 0;
         self.commentLabel.backgroundColor = commentLabelGray;
         
+        self.likeLabel = [[UILabel alloc] init];
+        self.likeLabel.numberOfLines = 0;
+        self.likeLabel.backgroundColor = commentLabelGray;
+        
         self.likeButton = [[LikeButton alloc] init];
         [self.likeButton addTarget:self action:@selector(likePressed:) forControlEvents:UIControlEventTouchUpInside];
         self.likeButton.backgroundColor = usernameLabelGray;
         
-        for (UIView *view in @[self.mediaImageView, self.usernameAndCaptionLabel, self.commentLabel, self.likeButton]) {
+        for (UIView *view in @[self.mediaImageView, self.usernameAndCaptionLabel, self.commentLabel, self.likeButton, self.likeLabel]) {
             [self.contentView addSubview:view];
             
             //a boolean value determines if autoresize mask is translated into auto layout constraints. always set to no with auto layouts
@@ -110,11 +115,11 @@ static NSParagraphStyle *paragraphStyle;
         }
         
         //adding constraints - why on init?
-        NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_mediaImageView, _usernameAndCaptionLabel, _commentLabel, _likeButton);
+        NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_mediaImageView, _usernameAndCaptionLabel, _commentLabel, _likeButton, _likeLabel);
         
         //Horizontal constraints
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_mediaImageView]|" options:kNilOptions metrics:nil views:viewDictionary]];
-        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_usernameAndCaptionLabel][_likeButton(==38)]|" options:NSLayoutFormatAlignAllTop | NSLayoutFormatAlignAllBottom metrics:nil views:viewDictionary]];
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_usernameAndCaptionLabel][_likeLabel(==25)][_likeButton(==38)]|" options:NSLayoutFormatAlignAllTop | NSLayoutFormatAlignAllBottom metrics:nil views:viewDictionary]];
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_commentLabel]|" options:kNilOptions metrics:nil views:viewDictionary]];
         
         //Vertical constraints
@@ -237,6 +242,7 @@ static NSParagraphStyle *paragraphStyle;
     
     return commentString;
 }
+
 
 //write a method to help calculate the size of attributed strings
 //calculates how tall usernameAndCaptionLabel and commentLabel need to be
