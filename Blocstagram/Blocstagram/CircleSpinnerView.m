@@ -17,8 +17,12 @@
 
 @implementation CircleSpinnerView
 
+
+
 - (id)initWithFrame:(CGRect)frame
 {
+    
+    //set default values
     self = [super initWithFrame:frame];
     if (self) {
         self.strokeThickness = 1;
@@ -28,6 +32,7 @@
     return self;
 }
 
+//provide hint about size
 - (CGSize)sizeThatFits:(CGSize)size {
     return CGSizeMake((self.radius+self.strokeThickness/2+5)*2, (self.radius+self.strokeThickness/2+5)*2);
 }
@@ -55,26 +60,31 @@
         _circleLayer.fillColor = [UIColor clearColor].CGColor;
         _circleLayer.strokeColor = self.strokeColor.CGColor;
         _circleLayer.lineWidth = self.strokeThickness;
+        //lineCap specifies the shape of the ends of the line
         _circleLayer.lineCap = kCALineCapRound;
         _circleLayer.lineJoin = kCALineJoinBevel;
         _circleLayer.path = smoothedPath.CGPath;
         
-        //mask layer
+        //mask layer -- assign the circular path to the layer
         CALayer *maskLayer = [CALayer layer];
         maskLayer.contents = (id)[[UIImage imageNamed:@"angle-mask"] CGImage];
         maskLayer.frame = _circleLayer.bounds;
         _circleLayer.mask = maskLayer;
         
+        
+        //animate the mask in a circular motion
         CFTimeInterval animationDuration = 1;
         CAMediaTimingFunction *linearCurve = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
         
         CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
+        //specify rotation from 0 to π * 2 (one full circle turn)
         animation.fromValue = @0;
         animation.toValue = @(M_PI*2);
         animation.duration = animationDuration;
         animation.timingFunction = linearCurve;
         animation.removedOnCompletion = NO;
         animation.repeatCount = INFINITY;
+        //fillmode specifies what happens when animation is complete
         animation.fillMode = kCAFillModeForwards;
         animation.autoreverses = NO;
         [_circleLayer.mask addAnimation:animation forKey:@"rotate"];
@@ -104,10 +114,12 @@
 
 -(void)layoutAnimatedLayer {
     [self.layer addSublayer:self.circleLayer];
-    
+    //position the circle layer in th ecenter of the view
     self.circleLayer.position = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
 }
 
+
+//when we add a subview to another view this method will perform the reaction
 - (void)willMoveToSuperview:(UIView *)newSuperview {
     if (newSuperview != nil) {
         [self layoutAnimatedLayer];
@@ -117,6 +129,7 @@
     }
 }
 
+//update the position of the layer if the frame changes
 - (void)setFrame:(CGRect)frame {
     [super setFrame:frame];
     
@@ -124,6 +137,8 @@
         [self layoutAnimatedLayer];
     }
 }
+
+//if we change the radius of the circle it will affect positioning. update positioning by overriding the setter(setRadius:) to create the circle layer
 
 - (void)setRadius:(CGFloat)radius {
     _radius = radius;

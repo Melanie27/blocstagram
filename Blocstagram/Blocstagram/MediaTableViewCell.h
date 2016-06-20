@@ -18,6 +18,9 @@
 
 -(void) cell:(MediaTableViewCell *)cell didLongPressImageView:(UIImageView *)imageView;
 
+//add delegate method indicating that the like button was pressed
+-(void) cellDidPressLikeButton:(MediaTableViewCell *)cell;
+
 @end
 
 //each cell will be associated with a single media item
