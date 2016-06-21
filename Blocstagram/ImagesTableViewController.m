@@ -15,6 +15,7 @@
 #import "MediaTableViewCell.h"
 #import "MediaFullScreenViewController.h"
 
+
 @interface ImagesTableViewController () <MediaTableViewCellDelegate>
 
 @end
@@ -80,6 +81,7 @@
     MediaFullScreenViewController *fullScreenVC = [[MediaFullScreenViewController alloc] initWithMedia:cell.mediaItem];
     
     [self presentViewController:fullScreenVC animated:YES completion:nil];
+    
 }
 
 //implement long press method
@@ -101,6 +103,13 @@
     }
     
     
+}
+
+//implement the 2 finger tap method
+
+-(void) cell:(MediaTableViewCell *)cell didDoubleFingerTapView:(UIImageView *)imageView {
+    //[self downloadImageForMediaItem];
+        NSLog(@"retry download 2");
 }
 
 //Override the default height, which is 44 points

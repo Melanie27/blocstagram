@@ -18,6 +18,10 @@
 
 -(void) cell:(MediaTableViewCell *)cell didLongPressImageView:(UIImageView *)imageView;
 
+//add delegate method to retry image download when user taps on cell with 2 fingers
+
+-(void) cell:(MediaTableViewCell *)cell didDoubleFingerTapView:(UIImageView *)imageView;
+
 @end
 
 //each cell will be associated with a single media item

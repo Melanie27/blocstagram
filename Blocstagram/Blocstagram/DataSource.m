@@ -18,7 +18,7 @@
 
 //pattern states that property can only be modified by the DataSource instance
 //make mediaItems key-value compliant
-@interface DataSource() {
+@interface DataSource() <UIGestureRecognizerDelegate> {
     //an array must be accessible as an instance variable named _<key>
     NSMutableArray *_mediaItems;
     
@@ -34,7 +34,6 @@
 @property (nonatomic, assign) BOOL thereAreNoMoreOlderMessages;
 
 @property (nonatomic, strong) AFHTTPRequestOperationManager *instagramOperationManager;
-
 
 @end
 
@@ -58,6 +57,7 @@
     self = [super init];
     
     if (self) {
+        
         //call the AFNetworking operation manager
         [self createOperationManager];
         
@@ -88,14 +88,19 @@
                         
                     } else {
                         [self populateDataWithParameters:nil completionHandler:nil];
+                        
+                        
+                        
                     }
                 });
             });
         }
+        
     }
     
     return self;
 }
+
 
 
 //create a method to init the operation manager
@@ -325,9 +330,12 @@
                                         }
                                         
                                         [self saveImages];
+                                       
+                                        
                                         
                                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                         NSLog(@"Error downloading image: %@", error);
+                                        
                                     }];
     }
 }
