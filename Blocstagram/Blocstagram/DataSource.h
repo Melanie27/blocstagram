@@ -30,6 +30,9 @@ typedef void(^NewItemCompletionBlock)(NSError *error);
 //method for the table view to call when the user scrolls past the bottom
 -(void) requestOldItemsWithCompletionHandler:(NewItemCompletionBlock)completionHandler;
 
+//want other classes to be able to request an image download so add this method to DataSource's public interface
+//- (void) downloadImageForMediaItem:(Media *)mediaItem;
+
 //store Instagram Client ID
 + (NSString *) instagramClientID;
 
