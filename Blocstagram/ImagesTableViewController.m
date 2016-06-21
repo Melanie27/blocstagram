@@ -107,7 +107,7 @@
 
 //implement the 2 finger tap method
 
--(void) cell:(MediaTableViewCell *)cell didDoubleFingerTapView:(UIImageView *)imageView forRowAtIndexPath:(NSIndexPath *)indexPath {
+-(void) cell:(MediaTableViewCell *)cell didDoubleFingerTapView:(UIImageView *)imageView  {
     //Media *mediaItem = [DataSource sharedInstance].mediaItems[indexPath.row];
     //[[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
         NSLog(@"retry download 2");
