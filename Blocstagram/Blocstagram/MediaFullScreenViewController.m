@@ -19,6 +19,9 @@
 @property (nonatomic, strong) UITapGestureRecognizer *tap;
 @property (nonatomic, strong) UITapGestureRecognizer *doubleTap;
 
+//add property for UIButton
+//@property (nonatomic, strong, readonly) UIButton *shareButton;
+
 @end
 
 @implementation MediaFullScreenViewController
@@ -52,7 +55,7 @@
     self.imageView = [UIImageView new];
     self.imageView.image = self.media.image;
     
-    [self.scrollView addSubview:self.imageView];
+    //[self.scrollView addSubview:self.imageView];
     
     // #3
     //size of content view - whatever is being scrolled around
@@ -69,28 +72,37 @@
     [self.scrollView addGestureRecognizer:self.tap];
     [self.scrollView addGestureRecognizer:self.doubleTap];
     
-    
-    
+
     //Add Share Button
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [button setTitle:@"Share" forState:UIControlStateNormal];
-    [button setBackgroundColor: [UIColor whiteColor]];
-    [button addTarget:self action:@selector(socialSharing:) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *shareButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [shareButton setTitle:@"Share" forState:UIControlStateNormal];
+    [shareButton setBackgroundColor: [UIColor whiteColor]];
+    [shareButton addTarget:self action:@selector(socialSharing:) forControlEvents:UIControlEventTouchUpInside];
     
-    button.frame = CGRectMake(80.0, 210.0, 160.0, 40.0);
+    //is there a better way to put it in the top right?
+    shareButton.frame = CGRectMake(280.0, 0.0, 100.0, 40.0);
     // Calculate the top right corner
     
-    [self.view addSubview:button];
+    [self.view addSubview:shareButton];
+    
+    //[shareButton socialSharing];
+    
+    
+    
     
 }
 
 
--(IBAction)socialSharing:(id)sender {
+
+- (IBAction)socialSharing:(id)sender {
     NSLog(@"hi melanie");
-    
-    //[self didLongPressImageView];
-    
-    }
+}
+
+
+
+
+
+
 
 //when the user single-taps, dismiss the view controller
 
