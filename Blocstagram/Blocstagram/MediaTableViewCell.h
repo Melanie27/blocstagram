@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class Media, MediaTableViewCell;
+@class Media, MediaTableViewCell, ComposeCommentView;
 
 @protocol MediaTableViewCellDelegate <NSObject>
 
@@ -20,6 +20,9 @@
 
 - (void) cellDidPressLikeButton:(MediaTableViewCell *)cell;
 
+- (void) cellWillStartComposingComment:(MediaTableViewCell *)cell;
+- (void) cell:(MediaTableViewCell *)cell didComposeComment:(NSString *)comment;
+
 @end
 
 //each cell will be associated with a single media item
@@ -28,8 +31,11 @@
 
 @property (nonatomic, strong) Media *mediaItem;
 @property(nonatomic, weak) id <MediaTableViewCellDelegate> delegate;
+@property (nonatomic, strong, readonly) ComposeCommentView *commentView;
 //+ signifies that this method belongs to the class
 +(CGFloat) heightForMediaItem:(Media *)mediaItem width:(CGFloat)width;
+
+-(void) stopComposingComment;
 
 //Get Media item
 

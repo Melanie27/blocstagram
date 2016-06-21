@@ -12,9 +12,9 @@
 
 @protocol ComposeCommentViewDelegate <NSObject>
 
--(void) commentViewDidPressCommentButton:(ComposeCommentView *)sender;
--(void) commentView:(ComposeCommentView *)sender textDidChange:(NSString *)text;
--(void) commentViewWillStartEditing:(ComposeCommentView *)sender;
+- (void) commentViewDidPressCommentButton:(ComposeCommentView *)sender;
+- (void) commentView:(ComposeCommentView *)sender textDidChange:(NSString *)text;
+- (void) commentViewWillStartEditing:(ComposeCommentView *)sender;
 
 @end
 
@@ -28,7 +28,6 @@
 
 @property (nonatomic, strong) NSString *text;
 
-//a controller can call this to end composition and dismiss the keyboard
--(void) stopComposingComment;
+- (void) stopComposingComment;
 
 @end
