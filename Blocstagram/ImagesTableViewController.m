@@ -15,7 +15,7 @@
 #import "MediaTableViewCell.h"
 #import "MediaFullScreenViewController.h"
 
-@interface ImagesTableViewController () <MediaTableViewCellDelegate>
+@interface ImagesTableViewController () <MediaTableViewCellDelegate, MediaFullScreenViewControllerDelegate>
 
 @end
 
@@ -80,7 +80,7 @@
 //implement the delegate method
 - (void) cell:(MediaTableViewCell *)cell didTapImageView:(UIImageView *)imageView {
     MediaFullScreenViewController *fullScreenVC = [[MediaFullScreenViewController alloc] initWithMedia:cell.mediaItem];
-    
+    fullScreenVC.delegate = self;
     [self presentViewController:fullScreenVC animated:YES completion:nil];
 }
 
@@ -106,11 +106,10 @@
 }
 
 //implement share method
--(void) didSocialSharing:(UIButton *)shareButton {
-    NSLog(@"yo");
-    NSMutableArray *itemsToShare = [NSMutableArray array];
+-(void)didSocialSharing:(MediaFullScreenViewController *)fullScreenVC {
+    NSMutableArray *itemsToShare = [NSMutableArray arrayWithObject:fullScreenVC.imageView.image];
     UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
-    [self presentViewController:activityVC animated:YES completion:nil];
+    [fullScreenVC presentViewController:activityVC animated:YES completion:nil];
     
 }
 

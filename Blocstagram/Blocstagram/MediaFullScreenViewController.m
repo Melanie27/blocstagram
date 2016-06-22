@@ -90,8 +90,8 @@
 
 
 - (IBAction)socialSharing:(id)sender {
-    [self.delegate didSocialSharing:self.shareButton];
-    NSLog(@"hi melanie");
+    [self.delegate didSocialSharing:self];
+    
 }
 
 

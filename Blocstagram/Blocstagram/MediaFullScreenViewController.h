@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@class Media, MediaTableViewCell;
+@class Media, MediaTableViewCell, MediaFullScreenViewController;
 
 @protocol MediaFullScreenViewControllerDelegate <NSObject>
 
 //add delegate method for sharing on full screen
--(void) didSocialSharing:(UIButton *)shareButton;
+-(void) didSocialSharing:(MediaFullScreenViewController *)fullScreenVC;
 
 @end
 
