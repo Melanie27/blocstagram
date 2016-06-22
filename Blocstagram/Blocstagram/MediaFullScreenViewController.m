@@ -55,7 +55,7 @@
     self.imageView = [UIImageView new];
     self.imageView.image = self.media.image;
     
-    //[self.scrollView addSubview:self.imageView];
+    [self.scrollView addSubview:self.imageView];
     
     // #3
     //size of content view - whatever is being scrolled around
@@ -85,23 +85,14 @@
     
     [self.view addSubview:shareButton];
     
-    //[shareButton socialSharing];
-    
-    
-    
-    
 }
 
 
 
 - (IBAction)socialSharing:(id)sender {
+    [self.delegate didSocialSharing:self.shareButton];
     NSLog(@"hi melanie");
 }
-
-
-
-
-
 
 
 //when the user single-taps, dismiss the view controller

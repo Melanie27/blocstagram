@@ -105,7 +105,14 @@
     
 }
 
-
+//implement share method
+-(void) didSocialSharing:(UIButton *)shareButton {
+    NSLog(@"yo");
+    NSMutableArray *itemsToShare = [NSMutableArray array];
+    UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
+    [self presentViewController:activityVC animated:YES completion:nil];
+    
+}
 
 //Override the default height, which is 44 points
 -(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

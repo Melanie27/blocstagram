@@ -13,7 +13,7 @@
 @protocol MediaFullScreenViewControllerDelegate <NSObject>
 
 //add delegate method for sharing on full screen
--(void) cell:(MediaTableViewCell *) cell socialSharing:(UIButton *)shareButton;
+-(void) didSocialSharing:(UIButton *)shareButton;
 
 @end
 
