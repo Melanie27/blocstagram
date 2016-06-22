@@ -59,12 +59,12 @@
         self.button.backgroundColor = [UIColor colorWithRed:0.345 green:0.318 blue:0.424 alpha:1]; /*#58516c*/
         
         CGFloat buttonX = CGRectGetWidth(self.bounds) - CGRectGetWidth(self.button.frame) - 20;
-        self.button.frame = CGRectMake(buttonX, 10, 80, 20);
+        self.button.frame = CGRectMake(buttonX, 10, 70, 20);
     } else {
-        self.textView.backgroundColor = [UIColor colorWithRed:0.898 green:0.898 blue:0.898 alpha:1]; /*#e5e5e5*/
-        self.button.backgroundColor = [UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1]; /*#999999*/
+        self.textView.backgroundColor = [UIColor colorWithRed:0.898 green:0.898 blue:0.898 alpha:.5]; /*#e5e5e5*/
+        self.button.backgroundColor = [UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:.5]; /*#999999*/
         
-        self.button.frame = CGRectMake(10, 10, 80, 20);
+        self.button.frame = CGRectMake(10, 10, 100, 20);
     }
     
     CGSize buttonSize = self.button.frame.size;
