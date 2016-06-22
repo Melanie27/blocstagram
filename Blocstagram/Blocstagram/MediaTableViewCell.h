@@ -25,6 +25,13 @@
 @interface MediaTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) Media *mediaItem;
+@property (nonatomic, strong) UIScrollView *scrollView;
+
+- (instancetype) initWithMedia:(Media *)media;
+
+- (void) downloadingScrollView;
+
+
 @property(nonatomic, weak) id <MediaTableViewCellDelegate> delegate;
 //+ signifies that this method belongs to the class
 +(CGFloat) heightForMediaItem:(Media *)mediaItem width:(CGFloat)width;

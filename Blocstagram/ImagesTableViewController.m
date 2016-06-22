@@ -104,12 +104,15 @@
 }
 
 //check whether we need the images just before a cell displays
--(void) tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+/*-(void) tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     Media *mediaItem = [DataSource sharedInstance].mediaItems[indexPath.row];
     if (mediaItem.downloadState == MediaDownloadStateNeedsImage) {
         [[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
     }
-}
+}*/
+
+//download images fir the cells currently visible on the screen
+
 
 //Override the default height, which is 44 points
 -(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

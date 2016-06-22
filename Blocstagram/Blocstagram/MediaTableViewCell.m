@@ -12,7 +12,7 @@
 #import "User.h"
 
 //declare that this class confroms to gesture rec delegate protocol
-@interface MediaTableViewCell() <UIGestureRecognizerDelegate>
+@interface MediaTableViewCell() <UIGestureRecognizerDelegate, UIScrollViewDelegate>
 //why are these properties in implementation and not header??
 
 @property (nonatomic, strong) UIImageView *mediaImageView;
@@ -27,6 +27,7 @@
 //add a property for the gesture recognizer
 @property (nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
 @property (nonatomic, strong) UILongPressGestureRecognizer *longPressGestureRecognizer;
+
 
 @end
 
@@ -111,10 +112,15 @@ static NSParagraphStyle *paragraphStyle;
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_commentLabel]|" options:kNilOptions metrics:nil views:viewDictionary]];
         
         //Vertical constraints
-        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_mediaImageView][_usernameAndCaptionLabel][_commentLabel]"
+        //trying to add default vertical constrait of 300 to image view
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_mediaImageView(==300)][_usernameAndCaptionLabel][_commentLabel]"
                                                                                  options:kNilOptions
                                                                                  metrics:nil
                                                                                  views:viewDictionary]];
+        
+        
+        
+        
         //Height constraints
         self.imageHeightConstraint = [NSLayoutConstraint constraintWithItem:_mediaImageView
                                                                   attribute:NSLayoutAttributeHeight
@@ -147,6 +153,16 @@ static NSParagraphStyle *paragraphStyle;
     }
     
     return self;
+    
+}
+
+#pragma mark scollView
+//set up the scroll view
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+}
+
+-(void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
     
 }
 
