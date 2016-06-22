@@ -77,6 +77,7 @@ static NSParagraphStyle *paragraphStyle;
        
         self.mediaImageView.userInteractionEnabled = YES;
         
+        
         self.tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapFired:)];
         self.tapGestureRecognizer.delegate = self;
         [self.mediaImageView addGestureRecognizer:self.tapGestureRecognizer];

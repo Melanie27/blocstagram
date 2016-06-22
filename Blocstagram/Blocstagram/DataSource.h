@@ -31,7 +31,7 @@ typedef void(^NewItemCompletionBlock)(NSError *error);
 -(void) requestOldItemsWithCompletionHandler:(NewItemCompletionBlock)completionHandler;
 
 //want other classes to be able to request an image download so add this method to DataSource's public interface
-//- (void) downloadImageForMediaItem:(Media *)mediaItem;
+- (void) downloadImageForMediaItem:(Media *)mediaItem;
 
 //store Instagram Client ID
 + (NSString *) instagramClientID;

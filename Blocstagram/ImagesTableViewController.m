@@ -71,7 +71,8 @@
     cell.delegate = self;
     
     cell.mediaItem = [DataSource sharedInstance].mediaItems[indexPath.row];
-    
+    cell.contentView.subviews[0].tag = indexPath.row;
+
     return cell;
 }
 
@@ -108,9 +109,8 @@
 //implement the 2 finger tap method
 
 -(void) cell:(MediaTableViewCell *)cell didDoubleFingerTapView:(UIImageView *)imageView  {
-    //Media *mediaItem = [DataSource sharedInstance].mediaItems[indexPath.row];
-    //[[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
-        NSLog(@"retry download 2");
+    Media *mediaItem = [DataSource sharedInstance].mediaItems[imageView.tag];
+    [[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
 }
 
 //Override the default height, which is 44 points
