@@ -113,7 +113,7 @@ static NSParagraphStyle *paragraphStyle;
         
         //Vertical constraints
         //trying to add default vertical constrait of 300 to image view
-        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_mediaImageView(==300)][_usernameAndCaptionLabel][_commentLabel]"
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_mediaImageView(>=100)][_usernameAndCaptionLabel][_commentLabel]"
                                                                                  options:kNilOptions
                                                                                  metrics:nil
                                                                                  views:viewDictionary]];
@@ -153,16 +153,6 @@ static NSParagraphStyle *paragraphStyle;
     }
     
     return self;
-    
-}
-
-#pragma mark scollView
-//set up the scroll view
--(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    
-}
-
--(void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
     
 }
 
@@ -293,7 +283,7 @@ static NSParagraphStyle *paragraphStyle;
     if (self.mediaItem.image.size.width > 0 && CGRectGetWidth(self.contentView.bounds) > 0) {
         self.imageHeightConstraint.constant = self.mediaItem.image.size.height / self.mediaItem.image.size.width * CGRectGetWidth(self.contentView.bounds);
     } else {
-        self.imageHeightConstraint.constant = 0;
+        self.imageHeightConstraint.constant = 100;
     }
     
     //Hide the line between cells

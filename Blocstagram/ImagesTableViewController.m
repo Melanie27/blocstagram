@@ -15,7 +15,7 @@
 #import "MediaTableViewCell.h"
 #import "MediaFullScreenViewController.h"
 
-@interface ImagesTableViewController () <MediaTableViewCellDelegate>
+@interface ImagesTableViewController () <MediaTableViewCellDelegate, UIScrollViewDelegate>
 
 @end
 
@@ -53,6 +53,8 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -70,7 +72,7 @@
     cell.delegate = self;
     
     cell.mediaItem = [DataSource sharedInstance].mediaItems[indexPath.row];
-    
+    cell.contentView.subviews[0].tag = indexPath.row;
     return cell;
 }
 
@@ -103,15 +105,32 @@
     
 }
 
+#pragma mark scollView
+//set up the scroll view
+
+-(void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
+    NSLog(@"deceleration");
+   /* Media *mediaItem = [DataSource sharedInstance].mediaItems[imageView.tag];
+    if (mediaItem.downloadState == MediaDownloadStateNeedsImage) {
+        [[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
+    }*/
+    //set boolean value ou may also want to inspect dragging to avoid starting downloads while the user is still adjusting the scroll view.
+}
+
+/*-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+ 
+ }*/
+
+
 //check whether we need the images just before a cell displays
-/*-(void) tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+-(void) tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     Media *mediaItem = [DataSource sharedInstance].mediaItems[indexPath.row];
     if (mediaItem.downloadState == MediaDownloadStateNeedsImage) {
         [[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
     }
-}*/
+}
 
-//download images fir the cells currently visible on the screen
+//download images for the cells currently visible on the screen
 
 
 //Override the default height, which is 44 points

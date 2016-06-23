@@ -25,11 +25,11 @@
 @interface MediaTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) Media *mediaItem;
-@property (nonatomic, strong) UIScrollView *scrollView;
+
 
 - (instancetype) initWithMedia:(Media *)media;
 
-- (void) downloadingScrollView;
+
 
 
 @property(nonatomic, weak) id <MediaTableViewCellDelegate> delegate;
