@@ -15,8 +15,11 @@
 #import "MediaTableViewCell.h"
 #import "MediaFullScreenViewController.h"
 
-@interface ImagesTableViewController () <MediaTableViewCellDelegate, UIScrollViewDelegate>
-
+@interface ImagesTableViewController () <MediaTableViewCellDelegate, UIScrollViewDelegate> {
+    
+    UIScrollView *myScrollView;
+    
+}
 @end
 
 @implementation ImagesTableViewController
@@ -27,6 +30,14 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
+        /*self.placeholderButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        //[self.placeholderButton addTarget:self action:@selector(cameraButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [self.placeholderButton setImage:[UIImage imageNamed:@"placeholder"] forState:UIControlStateNormal];
+        [self.placeholderButton setContentEdgeInsets:UIEdgeInsetsMake(10, 10, 15, 10)];*/
+       
+       
+       
+        
         
     }
     return self;
@@ -45,6 +56,10 @@
     
     // return table view managed by the controller, tell the table how to create new cells
     [self.tableView registerClass:[MediaTableViewCell class] forCellReuseIdentifier:@"mediaCell"];
+    
+    //return scrollview
+    //[self addScrollView];
+    
     
 }
 
@@ -73,10 +88,14 @@
     
     cell.mediaItem = [DataSource sharedInstance].mediaItems[indexPath.row];
     cell.contentView.subviews[0].tag = indexPath.row;
+    
+    
     return cell;
 }
 
 #pragma mark MediaTableViewCellDelegate
+
+
 //implement the delegate method
 - (void) cell:(MediaTableViewCell *)cell didTapImageView:(UIImageView *)imageView {
     MediaFullScreenViewController *fullScreenVC = [[MediaFullScreenViewController alloc] initWithMedia:cell.mediaItem];
@@ -105,30 +124,60 @@
     
 }
 
-#pragma mark scollView
+#pragma mark UIScrollViewDelegate
 //set up the scroll view
 
+//add scroll view
+/*-(void)addScrollView {
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    myScrollView = [[UIScrollView alloc] initWithFrame:screenRect];
+    NSLog(@"adding scroll view");
+    myScrollView.accessibilityActivationPoint = CGPointMake(100, 100);
+}*/
+
 -(void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
-    NSLog(@"deceleration");
-   /* Media *mediaItem = [DataSource sharedInstance].mediaItems[imageView.tag];
-    if (mediaItem.downloadState == MediaDownloadStateNeedsImage) {
-        [[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
-    }*/
+    NSLog(@"Did Begin Decelerating");
+   
     //set boolean value ou may also want to inspect dragging to avoid starting downloads while the user is still adjusting the scroll view.
+    
+    NSIndexPath *visibleIndexPath = [self.tableView indexPathsForVisibleRows];
+    if(visibleIndexPath) {
+         [self.tableView reloadData];
+        //[[DataSource sharedInstance] downloadImageForMediaItem:visibleIndexPath];
+    }
+    
+    //[self scrollViewDidScroll];
+    
+    
+    NSLog(@"Did end Decelerating");
 }
 
-/*-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
- 
- }*/
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    NSLog(@"Did scroll");
+    [self infiniteScrollIfNecessary];
+ }
+
+#pragma mark infinite scroll
+-(void) infiniteScrollIfNecessary {
+    // #3
+    NSIndexPath *bottomIndexPath = [[self.tableView indexPathsForVisibleRows] lastObject];
+    
+    if (bottomIndexPath && bottomIndexPath.row == [DataSource sharedInstance].mediaItems.count-1) {
+        //the very last cell is on the screen
+        [[DataSource sharedInstance] requestOldItemsWithCompletionHandler:nil];
+    }
+}
+
+
 
 
 //check whether we need the images just before a cell displays
--(void) tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+/*-(void) tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     Media *mediaItem = [DataSource sharedInstance].mediaItems[indexPath.row];
     if (mediaItem.downloadState == MediaDownloadStateNeedsImage) {
         [[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
     }
-}
+}*/
 
 //download images for the cells currently visible on the screen
 
@@ -212,24 +261,7 @@
     }];
 }
 
-#pragma mark infinite scroll
--(void) infiniteScrollIfNecessary {
-    // #3
-    NSIndexPath *bottomIndexPath = [[self.tableView indexPathsForVisibleRows] lastObject];
-    
-    if (bottomIndexPath && bottomIndexPath.row == [DataSource sharedInstance].mediaItems.count-1) {
-        //the very last cell is on the screen
-        [[DataSource sharedInstance] requestOldItemsWithCompletionHandler:nil];
-    }
-}
 
-
-#pragma mark - UIScrollViewDelegate
-
-//4
--(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [self infiniteScrollIfNecessary];
-}
 
 /*
 // Override to support conditional editing of the table view.
