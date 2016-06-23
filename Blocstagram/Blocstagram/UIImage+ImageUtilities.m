@@ -156,7 +156,12 @@
     return image;
 }
 
+//new method to complete the related UIImage work that's currently done in the cameraVC, so that none of the other category methods need to be called in that VC
 
+-(UIImage *) imageByScalingToSize:(CGSize)size addCroppingWithRect:(CGRect)rect {
+    
+
+}
 
 
 
