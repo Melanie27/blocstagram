@@ -9,6 +9,7 @@
 #import "CameraViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import "CameraToolbar.h"
+#import "UIImage+ImageUtilities.h"
 
 @interface CameraViewController () <CameraToolbarDelegate>
 
@@ -116,6 +117,66 @@
     }];
 }
 
+//handle the button press
+- (void) cameraButtonPressedOnToolbar:(CameraToolbar *)toolbar {
+    AVCaptureConnection *videoConnection;
+    
+    // #8
+    // find the correct AVCaptureConnection, which represents the input - session - output connection.
+    for (AVCaptureConnection *connection in self.stillImageOutput.connections) {
+        for (AVCaptureInputPort *port in connection.inputPorts) {
+            if ([port.mediaType isEqual:AVMediaTypeVideo]) {
+                videoConnection = connection;
+                break;
+            }
+        }
+        if (videoConnection) { break; }
+    }
+    
+    // #9 connection is passed to the output object, which returns image in completion block
+    [self.stillImageOutput captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler: ^(CMSampleBufferRef imageSampleBuffer, NSError *error) {
+        if (imageSampleBuffer) {
+            // #10
+            NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageSampleBuffer];
+            UIImage *image = [UIImage imageWithData:imageData scale:[UIScreen mainScreen].scale];
+            
+            // #11 fix orientation and resize
+            image = [image imageWithFixedOrientation];
+            image = [image imageResizedToMatchAspectRatioOfSize:self.captureVideoPreviewLayer.bounds.size];
+            
+            // #12 calculate and center the white square's rect and pass it to the final UIImage category method
+            UIView *leftLine = self.verticalLines.firstObject;
+            UIView *rightLine = self.verticalLines.lastObject;
+            UIView *topLine = self.horizontalLines.firstObject;
+            UIView *bottomLine = self.horizontalLines.lastObject;
+            
+            CGRect gridRect = CGRectMake(CGRectGetMinX(leftLine.frame),
+                                         CGRectGetMinY(topLine.frame),
+                                         CGRectGetMaxX(rightLine.frame) - CGRectGetMinX(leftLine.frame),
+                                         CGRectGetMinY(bottomLine.frame) - CGRectGetMinY(topLine.frame));
+            
+            CGRect cropRect = gridRect;
+            cropRect.origin.x = (CGRectGetMinX(gridRect) + (image.size.width - CGRectGetWidth(gridRect)) / 2);
+            
+            image = [image imageCroppedToRect:cropRect];
+            
+            // #13 call the delegate method with the image
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate cameraViewController:self didCompleteWithImage:image];
+            });
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:error.localizedDescription message:error.localizedRecoverySuggestion preferredStyle:UIAlertControllerStyleAlert];
+                [alertVC addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"OK button") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                    [self.delegate cameraViewController:self didCompleteWithImage:nil];
+                }]];
+                
+                [self presentViewController:alertVC animated:YES completion:nil];
+            });
+            
+        }
+    }];
+}
 
 //order is important, the views added later will be on top
 -(void) addViewsToViewHierarchy {
