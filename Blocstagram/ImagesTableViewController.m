@@ -23,6 +23,7 @@
 @end
 
 @implementation ImagesTableViewController
+BOOL isDecelerating = NO;
 
 //Override the table view controller's initializer to create an empty array
 - (id)initWithStyle:(UITableViewStyle)style
@@ -127,33 +128,18 @@
 #pragma mark UIScrollViewDelegate
 //set up the scroll view
 
-//add scroll view
-/*-(void)addScrollView {
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
-    myScrollView = [[UIScrollView alloc] initWithFrame:screenRect];
-    NSLog(@"adding scroll view");
-    myScrollView.accessibilityActivationPoint = CGPointMake(100, 100);
-}*/
-
 -(void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
     NSLog(@"Did Begin Decelerating");
-   
+    isDecelerating = YES;
     //set boolean value ou may also want to inspect dragging to avoid starting downloads while the user is still adjusting the scroll view.
-    
-    NSIndexPath *visibleIndexPath = [self.tableView indexPathsForVisibleRows];
-    if(visibleIndexPath) {
-         [self.tableView reloadData];
-        //[[DataSource sharedInstance] downloadImageForMediaItem:visibleIndexPath];
-    }
-    
-    //[self scrollViewDidScroll];
-    
-    
-    NSLog(@"Did end Decelerating");
+
+}
+
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    isDecelerating = NO;
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    NSLog(@"Did scroll");
     [self infiniteScrollIfNecessary];
  }
 
@@ -172,12 +158,12 @@
 
 
 //check whether we need the images just before a cell displays
-/*-(void) tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+-(void) tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     Media *mediaItem = [DataSource sharedInstance].mediaItems[indexPath.row];
-    if (mediaItem.downloadState == MediaDownloadStateNeedsImage) {
+    if (mediaItem.downloadState == MediaDownloadStateNeedsImage && isDecelerating) {
         [[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
     }
-}*/
+}
 
 //download images for the cells currently visible on the screen
 
