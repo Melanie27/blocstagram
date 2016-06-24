@@ -103,6 +103,7 @@ static NSParagraphStyle *paragraphStyle;
         self.likeLabel.numberOfLines = 0;
         self.likeLabel.backgroundColor = commentLabelGray;
         
+        
         self.likeButton = [[LikeButton alloc] init];
         [self.likeButton addTarget:self action:@selector(likePressed:) forControlEvents:UIControlEventTouchUpInside];
         self.likeButton.backgroundColor = usernameLabelGray;
@@ -311,7 +312,7 @@ static NSParagraphStyle *paragraphStyle;
     self.usernameAndCaptionLabel.attributedText = [self usernameAndCaptionString];
     self.commentLabel.attributedText = [self commentString];
     self.likeButton.likeButtonState = mediaItem.likeState;
-    
+    self.likeLabel.text = [NSString stringWithFormat:@"%ld",mediaItem.likeCount];
 }
 
 + (CGFloat) heightForMediaItem:(Media *)mediaItem width:(CGFloat)width {

@@ -16,6 +16,7 @@
     
     if (self) {
         self.idNumber = mediaDictionary[@"id"];
+        self.likeCount = [mediaDictionary[@"likes"][@"count"] integerValue];
         self.user = [[User alloc] initWithDictionary:mediaDictionary[@"user"]];
         NSString *standardResolutionImageURLString = mediaDictionary[@"images"][@"standard_resolution"][@"url"];
         NSURL *standardResolutionImageURL = [NSURL URLWithString:standardResolutionImageURLString];

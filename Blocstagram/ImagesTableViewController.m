@@ -108,6 +108,7 @@
         if (cell.mediaItem == item) {
             cell.mediaItem = item;
         }
+        
     }];
     
     cell.mediaItem = item;
