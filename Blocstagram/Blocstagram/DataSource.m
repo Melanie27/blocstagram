@@ -310,7 +310,7 @@
 
 - (void) downloadImageForMediaItem:(Media *)mediaItem {
     if (mediaItem.mediaURL && !mediaItem.image) {
-        
+        NSLog(@"hello");
         //set this when download begins
         mediaItem.downloadState = MediaDownloadStateDownloadInProgress;
         
@@ -382,7 +382,7 @@
         
         [self.instagramOperationManager POST:urlString parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
             mediaItem.likeState = LikeStateLiked;
-            
+            [self populateDataWithParameters:nil completionHandler:nil];
             if (completionHandler) {
                 completionHandler();
             }
@@ -400,7 +400,7 @@
         
         [self.instagramOperationManager DELETE:urlString parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
             mediaItem.likeState = LikeStateNotLiked;
-            
+            [self populateDataWithParameters:nil completionHandler:nil];
             if (completionHandler) {
                 completionHandler();
             }

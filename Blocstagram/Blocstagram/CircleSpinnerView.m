@@ -21,9 +21,9 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.strokeThickness = 1;
+        self.strokeThickness = 2;
         self.radius = 12;
-        self.strokeColor = [UIColor purpleColor];
+        self.strokeColor = [UIColor yellowColor];
     }
     return self;
 }
@@ -55,8 +55,8 @@
         _circleLayer.fillColor = [UIColor clearColor].CGColor;
         _circleLayer.strokeColor = self.strokeColor.CGColor;
         _circleLayer.lineWidth = self.strokeThickness;
-        _circleLayer.lineCap = kCALineCapRound;
-        _circleLayer.lineJoin = kCALineJoinBevel;
+        _circleLayer.lineCap = kCALineCapSquare;
+        _circleLayer.lineJoin = kCALineJoinRound;
         _circleLayer.path = smoothedPath.CGPath;
         
         //mask layer
@@ -65,8 +65,8 @@
         maskLayer.frame = _circleLayer.bounds;
         _circleLayer.mask = maskLayer;
         
-        CFTimeInterval animationDuration = 1;
-        CAMediaTimingFunction *linearCurve = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+        CFTimeInterval animationDuration = .7;
+        CAMediaTimingFunction *linearCurve = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
         
         CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
         animation.fromValue = @0;
@@ -75,7 +75,7 @@
         animation.timingFunction = linearCurve;
         animation.removedOnCompletion = NO;
         animation.repeatCount = INFINITY;
-        animation.fillMode = kCAFillModeForwards;
+        animation.fillMode = kCAFillModeBackwards;
         animation.autoreverses = NO;
         [_circleLayer.mask addAnimation:animation forKey:@"rotate"];
         

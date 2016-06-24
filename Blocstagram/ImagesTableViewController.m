@@ -20,7 +20,7 @@
 @end
 
 @implementation ImagesTableViewController
-
+BOOL pressedLikeButton = NO;
 //Override the table view controller's initializer to create an empty array
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -108,6 +108,12 @@
         if (cell.mediaItem == item) {
             cell.mediaItem = item;
         }
+       //refresh cell
+        
+        NSLog(@"refresh cell3");
+       // call willDisplayCell
+        //[self.tableView willDisplayCell];
+       
         
     }];
     
@@ -117,7 +123,7 @@
 //check whether we need the images just before a cell displays
 -(void) tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     Media *mediaItem = [DataSource sharedInstance].mediaItems[indexPath.row];
-    if (mediaItem.downloadState == MediaDownloadStateNeedsImage) {
+    if (mediaItem.downloadState == MediaDownloadStateNeedsImage ) {
         [[DataSource sharedInstance] downloadImageForMediaItem:mediaItem];
     }
 }
