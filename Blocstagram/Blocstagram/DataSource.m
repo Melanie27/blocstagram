@@ -310,7 +310,6 @@
 
 - (void) downloadImageForMediaItem:(Media *)mediaItem {
     if (mediaItem.mediaURL && !mediaItem.image) {
-        NSLog(@"hello");
         //set this when download begins
         mediaItem.downloadState = MediaDownloadStateDownloadInProgress;
         
