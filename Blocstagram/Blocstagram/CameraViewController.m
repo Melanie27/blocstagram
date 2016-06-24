@@ -141,6 +141,7 @@
             UIImage *image = [UIImage imageWithData:imageData scale:[UIScreen mainScreen].scale];
             
             // #11 fix orientation and resize
+            //refactor these calls to use the new method that is in the assignment
             image = [image imageWithFixedOrientation];
             image = [image imageResizedToMatchAspectRatioOfSize:self.captureVideoPreviewLayer.bounds.size];
             
