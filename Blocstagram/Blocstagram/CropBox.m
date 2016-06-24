@@ -22,7 +22,6 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        //this view does not handle touch events
         self.userInteractionEnabled = NO;
         
         NSArray *lines = [self.horizontalLines arrayByAddingObjectsFromArray:self.verticalLines];
