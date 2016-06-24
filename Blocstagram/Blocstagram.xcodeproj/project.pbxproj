@@ -41,6 +41,7 @@
 		9B44EB531D1DB99A001D7CAA /* CropBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B44EB521D1DB99A001D7CAA /* CropBox.m */; };
 		9B44EB561D1DBF4D001D7CAA /* CropImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B44EB551D1DBF4D001D7CAA /* CropImageViewController.m */; };
 		9B44EB591D1DCDB4001D7CAA /* ImageLibraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B44EB581D1DCDB4001D7CAA /* ImageLibraryViewController.m */; };
+		9B44EB5C1D1DDE69001D7CAA /* PostToInstagramViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B44EB5B1D1DDE69001D7CAA /* PostToInstagramViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,6 +122,8 @@
 		9B44EB551D1DBF4D001D7CAA /* CropImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CropImageViewController.m; path = ../../Blocstagram/Blocstagram/CropImageViewController.m; sourceTree = "<group>"; };
 		9B44EB571D1DCDB4001D7CAA /* ImageLibraryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageLibraryViewController.h; path = ../../Blocstagram/Blocstagram/ImageLibraryViewController.h; sourceTree = "<group>"; };
 		9B44EB581D1DCDB4001D7CAA /* ImageLibraryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageLibraryViewController.m; path = ../../Blocstagram/Blocstagram/ImageLibraryViewController.m; sourceTree = "<group>"; };
+		9B44EB5A1D1DDE69001D7CAA /* PostToInstagramViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostToInstagramViewController.h; path = ../../Blocstagram/Blocstagram/PostToInstagramViewController.h; sourceTree = "<group>"; };
+		9B44EB5B1D1DDE69001D7CAA /* PostToInstagramViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostToInstagramViewController.m; path = ../../Blocstagram/Blocstagram/PostToInstagramViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -229,6 +232,8 @@
 				9B0C884F1D14AAB000135BB0 /* CircleSpinnerView.m */,
 				9B0C88541D18746400135BB0 /* LikeButton.h */,
 				9B0C88551D18746400135BB0 /* LikeButton.m */,
+				9B44EB5A1D1DDE69001D7CAA /* PostToInstagramViewController.h */,
+				9B44EB5B1D1DDE69001D7CAA /* PostToInstagramViewController.m */,
 				9B17EC8F1D00D473000B2B10 /* LaunchScreen.storyboard */,
 				9B17EC921D00D473000B2B10 /* Info.plist */,
 				9B17EC811D00D473000B2B10 /* Supporting Files */,
@@ -481,6 +486,7 @@
 				9B17ECD61D062198000B2B10 /* Media.m in Sources */,
 				9B0C885C1D18BF6400135BB0 /* CameraToolbar.m in Sources */,
 				9B17EC861D00D473000B2B10 /* AppDelegate.m in Sources */,
+				9B44EB5C1D1DDE69001D7CAA /* PostToInstagramViewController.m in Sources */,
 				9B0D60401D0A328800ECD795 /* LoginViewController.m in Sources */,
 				9B0C88561D18746400135BB0 /* LikeButton.m in Sources */,
 				9B17ECDC1D06254F000B2B10 /* DataSource.m in Sources */,

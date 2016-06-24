@@ -15,7 +15,8 @@
 #import "MediaTableViewCell.h"
 #import "MediaFullScreenViewController.h"
 #import "CameraViewController.h"
- #import "ImageLibraryViewController.h"
+#import "ImageLibraryViewController.h"
+#import "PostToInstagramViewController.h"
 
 @interface ImagesTableViewController () <MediaTableViewCellDelegate, CameraViewControllerDelegate, ImageLibraryViewControllerDelegate>
     @property (nonatomic, weak) UIImageView *lastTappedImageView;
@@ -101,6 +102,14 @@
             NSLog(@"Closed without an image.");
         }
     }];
+}
+
+//push the instagram controller and call it from both respective delegate methods
+-(void) handleImage:(UIImage *)image withNavigationController:(UINavigationController *)nav {
+    if(image) {
+        PostToInstagramViewController *postVC = [[PostToInstagramViewController alloc] initWithImage:image];
+        [nav pushViewController:postVC animated:YES];
+    }
 }
 
 - (void) cameraViewController:(CameraViewController *)cameraViewController didCompleteWithImage:(UIImage *)image {
