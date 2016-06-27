@@ -94,14 +94,13 @@
     return;
 }
 
-- (void) imageLibraryViewController:(ImageLibraryViewController *)imageLibraryViewController didCompleteWithImage:(UIImage *)image {
-    [self handleImage:image withNavigationController:imageLibraryViewController.navigationController];
-}
+
 
 //push the instagram controller and call it from both respective delegate methods
--(void) handleImage:(UIImage *)image withNavigationController:(UINavigationController *)nav {
-    if(image) {
+- (void) handleImage:(UIImage *)image withNavigationController:(UINavigationController *)nav {
+    if (image) {
         PostToInstagramViewController *postVC = [[PostToInstagramViewController alloc] initWithImage:image];
+        
         [nav pushViewController:postVC animated:YES];
     } else {
         [nav dismissViewControllerAnimated:YES completion:nil];
@@ -110,6 +109,10 @@
 
 - (void) cameraViewController:(CameraViewController *)cameraViewController didCompleteWithImage:(UIImage *)image {
     [self handleImage:image withNavigationController:cameraViewController.navigationController];
+}
+
+- (void) imageLibraryViewController:(ImageLibraryViewController *)imageLibraryViewController didCompleteWithImage:(UIImage *)image {
+    [self handleImage:image withNavigationController:imageLibraryViewController.navigationController];
 }
 
 - (void)didReceiveMemoryWarning {
