@@ -95,13 +95,7 @@
 }
 
 - (void) imageLibraryViewController:(ImageLibraryViewController *)imageLibraryViewController didCompleteWithImage:(UIImage *)image {
-    [imageLibraryViewController dismissViewControllerAnimated:YES completion:^{
-        if (image) {
-            NSLog(@"Got an image!");
-        } else {
-            NSLog(@"Closed without an image.");
-        }
-    }];
+    [self handleImage:image withNavigationController:imageLibraryViewController.navigationController];
 }
 
 //push the instagram controller and call it from both respective delegate methods
@@ -109,17 +103,13 @@
     if(image) {
         PostToInstagramViewController *postVC = [[PostToInstagramViewController alloc] initWithImage:image];
         [nav pushViewController:postVC animated:YES];
+    } else {
+        [nav dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
 - (void) cameraViewController:(CameraViewController *)cameraViewController didCompleteWithImage:(UIImage *)image {
-    [cameraViewController dismissViewControllerAnimated:YES completion:^{
-        if (image) {
-            NSLog(@"Got an image!");
-        } else {
-            NSLog(@"Closed without an image.");
-        }
-    }];
+    [self handleImage:image withNavigationController:cameraViewController.navigationController];
 }
 
 - (void)didReceiveMemoryWarning {
