@@ -10,13 +10,14 @@
 #import "User.h"
 
 @implementation Comment
-- (instancetype) initWithDictionary:(NSDictionary *)commentDictionary {
+- (instancetype) initWithDictionary:(NSDictionary *)commentsDictionary {
     self = [super init];
     
     if (self) {
-        self.idNumber = commentDictionary[@"id"];
-        self.text = commentDictionary[@"text"];
-        self.from = [[User alloc] initWithDictionary:commentDictionary[@"from"]];
+        self.idNumber = commentsDictionary[@"id"];
+        self.text = commentsDictionary[@"text"];
+        self.from = [[User alloc] initWithDictionary:commentsDictionary[@"comments"]];
+        NSLog(@"%@", self.idNumber);
     }
     
     return self;

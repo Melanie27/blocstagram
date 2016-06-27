@@ -26,7 +26,6 @@
         
         NSDictionary *captionDictionary = mediaDictionary[@"caption"];
         
-        
         // Caption might be null (if there's no caption)
         if ([captionDictionary isKindOfClass:[NSDictionary class]]) {
             self.caption = captionDictionary[@"text"];
@@ -36,19 +35,9 @@
         
         NSMutableArray *commentsArray = [NSMutableArray array];
         
-        for (NSDictionary *commentDictionary in mediaDictionary[@"comments"]) {
-            
-            //Comment *comment = [[Comment alloc] initWithDictionary:commentDictionary];
-            if ([commentDictionary isKindOfClass:[NSDictionary class]]) {
-                self.comments = captionDictionary[@"count"];
-                NSLog(@"THERE IS AT LEAST ONE COMMENT");
-            } else {
-                self.comments = @"";
-                NSLog(@"Nope");
-            }
-            
-            NSLog(@"%@",commentDictionary);
-            //[commentsArray addObject:comment];
+        for (NSDictionary *commentDictionary in mediaDictionary[@"comments"][@"data"]) {
+            Comment *comment = [[Comment alloc] initWithDictionary:commentDictionary];
+            [commentsArray addObject:comment];
         }
         
         self.comments = commentsArray;
