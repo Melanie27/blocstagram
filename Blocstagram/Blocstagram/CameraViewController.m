@@ -145,7 +145,7 @@
             image = [image imageWithFixedOrientation];
             image = [image imageResizedToMatchAspectRatioOfSize:self.captureVideoPreviewLayer.bounds.size];
             
-            //cropping logic will just use the crop box's frame
+            //cropping logic will just use the crop box's frame, no longer needs to use the grid's perimeter
             CGRect gridRect = self.cropBox.frame;
             
             CGRect cropRect = gridRect;
