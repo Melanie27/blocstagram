@@ -107,14 +107,10 @@ BOOL pressedLikeButton = NO;
     [[DataSource sharedInstance] toggleLikeOnMediaItem:item withCompletionHandler:^{
         if (cell.mediaItem == item) {
             cell.mediaItem = item;
+            
         }
-       //refresh cell
-        
-        NSLog(@"refresh cell3");
-       // call willDisplayCell
-        //[self.tableView willDisplayCell];
-       
-        
+        //[[DataSource sharedInstance] populateDataWithParameters:item ];
+        //[[DataSource sharedInstance] downloadImageForMediaItem:item];
     }];
     
     cell.mediaItem = item;

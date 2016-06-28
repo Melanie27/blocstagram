@@ -381,6 +381,7 @@
         
         [self.instagramOperationManager POST:urlString parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
             mediaItem.likeState = LikeStateLiked;
+            
             [self populateDataWithParameters:nil completionHandler:nil];
             if (completionHandler) {
                 completionHandler();
