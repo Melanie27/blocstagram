@@ -42,6 +42,7 @@
 		9B44EB561D1DBF4D001D7CAA /* CropImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B44EB551D1DBF4D001D7CAA /* CropImageViewController.m */; };
 		9B44EB591D1DCDB4001D7CAA /* ImageLibraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B44EB581D1DCDB4001D7CAA /* ImageLibraryViewController.m */; };
 		9B44EB5C1D1DDE69001D7CAA /* PostToInstagramViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B44EB5B1D1DDE69001D7CAA /* PostToInstagramViewController.m */; };
+		9B44EB5E1D220232001D7CAA /* UserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B44EB5D1D220232001D7CAA /* UserTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -124,6 +125,7 @@
 		9B44EB581D1DCDB4001D7CAA /* ImageLibraryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageLibraryViewController.m; path = ../../Blocstagram/Blocstagram/ImageLibraryViewController.m; sourceTree = "<group>"; };
 		9B44EB5A1D1DDE69001D7CAA /* PostToInstagramViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostToInstagramViewController.h; path = ../../Blocstagram/Blocstagram/PostToInstagramViewController.h; sourceTree = "<group>"; };
 		9B44EB5B1D1DDE69001D7CAA /* PostToInstagramViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostToInstagramViewController.m; path = ../../Blocstagram/Blocstagram/PostToInstagramViewController.m; sourceTree = "<group>"; };
+		9B44EB5D1D220232001D7CAA /* UserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserTests.m; path = ../../Blocstagram/BlocstagramTests/UserTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -254,6 +256,7 @@
 			children = (
 				9B17EC9B1D00D473000B2B10 /* BlocstagramTests.m */,
 				9B17EC9D1D00D473000B2B10 /* Info.plist */,
+				9B44EB5D1D220232001D7CAA /* UserTests.m */,
 			);
 			path = BlocstagramTests;
 			sourceTree = "<group>";
@@ -501,6 +504,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B44EB5E1D220232001D7CAA /* UserTests.m in Sources */,
 				9B17EC9C1D00D473000B2B10 /* BlocstagramTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
