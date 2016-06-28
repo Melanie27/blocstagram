@@ -89,6 +89,11 @@
     
     if (imageVC) {
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:imageVC];
+        //in a horizontally normal environment a popover will be used
+        nav.modalPresentationStyle = UIModalPresentationPopover;
+        UIPopoverPresentationController *popoverController = nav.popoverPresentationController;
+        popoverController.barButtonItem = sender;
+        
         [self presentViewController:nav animated:YES completion:nil];
     }
     return;
@@ -145,6 +150,11 @@
 //implement the delegate method
 - (void) cell:(MediaTableViewCell *)cell didTapImageView:(UIImageView *)imageView {
     MediaFullScreenViewController *fullScreenVC = [[MediaFullScreenViewController alloc] initWithMedia:cell.mediaItem];
+    
+    //different presentation style - form sheet creates medium sized rectangles for ipads
+    if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular) {
+        fullScreenVC.modalPresentationStyle = UIModalPresentationFormSheet;
+    }
     
     [self presentViewController:fullScreenVC animated:YES completion:nil];
 }
@@ -211,7 +221,7 @@
     //UIImage *image = item.image;
     
     //return image.size.height / image.size.width * CGRectGetWidth(self.view.frame);
-    return [MediaTableViewCell heightForMediaItem:item width:CGRectGetWidth(self.view.frame)];
+     return [MediaTableViewCell heightForMediaItem:item width:CGRectGetWidth(self.view.frame) traitCollection:self.view.traitCollection];
 }
 //making rough height estimates to avoid calculating the height of every cell, calculates one at a time as they scroll into view
 //minimize jerky scrolling by accounting for comment view height

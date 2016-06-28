@@ -75,6 +75,8 @@ static NSString * const reuseIdentifier = @"Cell";
     
     //sort by creation date
     self.result = [PHAsset fetchAssetsWithMediaType:PHAssetMediaTypeImage options:options];
+    //to support popover -- now collection view data source methods may be called before viewWillAppear, so relead data after the assets are loaded
+    [self.collectionView reloadData];
 }
 
 //ask PHPhotoLibrary whether the user has already granted access to their photo library. IF not, request auth
@@ -86,7 +88,7 @@ static NSString * const reuseIdentifier = @"Cell";
             if ([PHPhotoLibrary authorizationStatus] == PHAuthorizationStatusAuthorized) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self loadAssets];
-                    [self.collectionView reloadData];
+                    //[self.collectionView reloadData];
                 });
             }
         }];
