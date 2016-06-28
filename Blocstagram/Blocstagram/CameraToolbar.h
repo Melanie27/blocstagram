@@ -23,7 +23,7 @@
 
 @interface CameraToolbar : UIView
 
-//image name for the side button icons passed here
+//image name for the side button icons passed here; the view will know nothing about the function of the 3 buttons, instead the delegate will be informed when the buttons are pressed
 -(instancetype) initWithImageNames:(NSArray *)imageNames;
 
 @property (nonatomic, weak) NSObject <CameraToolbarDelegate> *delegate;

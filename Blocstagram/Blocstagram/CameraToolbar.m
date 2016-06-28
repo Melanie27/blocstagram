@@ -10,10 +10,12 @@
 
 @interface CameraToolbar ()
 
+//declare properties of the buttons
 @property (nonatomic, strong) UIButton *leftButton;
 @property (nonatomic, strong) UIButton *cameraButton;
 @property (nonatomic, strong) UIButton *rightButton;
 
+//declare 2 views we'll use to customize appearance 
 @property (nonatomic, strong) UIView *whiteView;
 @property (nonatomic, strong) UIView *purpleView;
 

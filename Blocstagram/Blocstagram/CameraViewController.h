@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+//users will use this view to take pictures
 @class CameraViewController;
 
 //a delegate property and accompanying protocol will inform the presenting view controller when the camera VC is done

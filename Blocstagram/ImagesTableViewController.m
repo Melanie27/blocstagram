@@ -52,8 +52,8 @@
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
     
     //check if any photo capabilities are available and if so add a camera button
-    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera ]||
-       [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] ||
+        [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
         UIBarButtonItem *cameraButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(cameraPressed:)];
         self.navigationItem.rightBarButtonItem = cameraButton;
     }
@@ -69,6 +69,8 @@
                                                object:nil];
     
 }
+
+#pragma mark - Camera and CameraViewControllerDelegate
 
 #pragma mark - Camera and CameraViewControllerDelegate
 

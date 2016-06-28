@@ -29,7 +29,7 @@
 @property (nonatomic, strong) NSArray *horizontalLines;
 @property (nonatomic, strong) NSArray *verticalLines;
 
-//toolbars used for displaying small buttons have a unique translucent effect
+//UI toolbars used for displaying small buttons have a unique translucent effect
 @property (nonatomic, strong) UIToolbar *topView;
 @property (nonatomic, strong) UIToolbar *bottomView;
 
@@ -52,33 +52,30 @@
 }
 
 //in case the user doesn't want to take a photo, let's add a cancel button
--(void)createCancelButton {
+-(void) createCancelButton {
     UIImage *cancelImage = [UIImage imageNamed:@"x"];
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithImage:cancelImage style:UIBarButtonItemStyleDone target:self action:@selector(cancelPressed:)];
     self.navigationItem.leftBarButtonItem = cancelButton;
 }
 
 //begin foray into AV capture sessions
--(void) setupImageCapture {
-    //#1 create a capture session that mediates between the camera and the output layer
+- (void) setupImageCapture {
+    // #1
     self.session = [[AVCaptureSession alloc] init];
     self.session.sessionPreset = AVCaptureSessionPresetHigh;
     
-    //#2 create a layer to display camera content
+    // #2
     self.captureVideoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:self.session];
-    //fill the screen
     self.captureVideoPreviewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     self.captureVideoPreviewLayer.masksToBounds = YES;
-    
-    //like adding subviews
     [self.imagePreview.layer addSublayer:self.captureVideoPreviewLayer];
     
-    //3 request permission from the user to access the camera. response handled asych because user may not reply immediately
+    // #3
     [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            // #4 indicates whether or not the user has accepted the request
+            // #4
             if (granted) {
-                // #5 if yes, create device (camera) that provides data to AVCaptureSession through an object created at 6
+                // #5
                 AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
                 
                 // #6
@@ -92,7 +89,7 @@
                     
                     [self presentViewController:alertVC animated:YES completion:nil];
                 } else {
-                    // #7 add input to capture session, create still image output that saves JPEG files, start running session
+                    // #7
                     
                     [self.session addInput:input];
                     
@@ -122,7 +119,7 @@
     AVCaptureConnection *videoConnection;
     
     // #8
-    // find the correct AVCaptureConnection, which represents the input - session - output connection.
+    // Find the right connection object
     for (AVCaptureConnection *connection in self.stillImageOutput.connections) {
         for (AVCaptureInputPort *port in connection.inputPorts) {
             if ([port.mediaType isEqual:AVMediaTypeVideo]) {
@@ -133,19 +130,22 @@
         if (videoConnection) { break; }
     }
     
-    // #9 connection is passed to the output object, which returns image in completion block
+    // #9
     [self.stillImageOutput captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler: ^(CMSampleBufferRef imageSampleBuffer, NSError *error) {
         if (imageSampleBuffer) {
             // #10
             NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageSampleBuffer];
             UIImage *image = [UIImage imageWithData:imageData scale:[UIScreen mainScreen].scale];
             
-            // #11 fix orientation and resize
-            //refactor these calls to use the new method that is in the assignment
+            // #11
             image = [image imageWithFixedOrientation];
             image = [image imageResizedToMatchAspectRatioOfSize:self.captureVideoPreviewLayer.bounds.size];
             
-            // #12 calculate and center the white square's rect and pass it to the final UIImage category method
+            
+            
+            image = [image imageByScalingToSize:(CGSize)size addCroppingWithRect:rect];
+            
+            // #12
             UIView *leftLine = self.verticalLines.firstObject;
             UIView *rightLine = self.verticalLines.lastObject;
             UIView *topLine = self.horizontalLines.firstObject;
@@ -161,7 +161,7 @@
             
             image = [image imageCroppedToRect:cropRect];
             
-            // #13 call the delegate method with the image
+            // #13
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.delegate cameraViewController:self didCompleteWithImage:image];
             });
@@ -179,38 +179,7 @@
     }];
 }
 
-//order is important, the views added later will be on top
--(void) addViewsToViewHierarchy {
-    NSMutableArray *views = [@[self.imagePreview, self.topView, self.bottomView] mutableCopy];
-    [views addObjectsFromArray:self.horizontalLines];
-    [views addObjectsFromArray:self.verticalLines];
-    [views addObject:self.cameraToolbar];
-    
-    //know this by heart
-    for(UIView *view in views) {
-        [self.view addSubview:view];
-    }
-}
-
--(void) createViews {
-    self.imagePreview = [UIView new];
-    self.topView = [UIToolbar new];
-    self.bottomView = [UIToolbar new];
-    self.cameraToolbar = [[CameraToolbar alloc] initWithImageNames:@[@"rotate", @"road"]];
-    self.cameraToolbar.delegate = self;
-    UIColor *whiteBG = [UIColor colorWithWhite:1.0 alpha:.15];
-    
-    //bar tint color is like backgroundColor but translucent
-    self.topView.barTintColor = whiteBG;
-    self.bottomView.barTintColor = whiteBG;
-    self.topView.alpha = 0.5;
-    self.bottomView.alpha = 0.5;
-    
-}
-
-//horizontal and vertical lines are nil so let's override their getters with some white views
-
--(NSArray *) horizontalLines {
+- (NSArray *) horizontalLines {
     if (!_horizontalLines) {
         _horizontalLines = [self newArrayOfFourWhiteViews];
     }
@@ -218,7 +187,7 @@
     return _horizontalLines;
 }
 
--(NSArray *) verticalLines {
+- (NSArray *) verticalLines {
     if (!_verticalLines) {
         _verticalLines = [self newArrayOfFourWhiteViews];
     }
@@ -226,7 +195,7 @@
     return _verticalLines;
 }
 
--(NSArray *) newArrayOfFourWhiteViews {
+- (NSArray *) newArrayOfFourWhiteViews {
     NSMutableArray *array = [NSMutableArray array];
     
     for (int i = 0; i < 4; i++) {
@@ -236,6 +205,31 @@
     }
     
     return array;
+}
+
+//order is important, the views added later will be on top
+- (void) addViewsToViewHierarchy {
+    NSMutableArray *views = [@[self.imagePreview, self.topView, self.bottomView] mutableCopy];
+    [views addObjectsFromArray:self.horizontalLines];
+    [views addObjectsFromArray:self.verticalLines];
+    [views addObject:self.cameraToolbar];
+    
+    for (UIView *view in views) {
+        [self.view addSubview:view];
+    }
+}
+
+- (void) createViews {
+    self.imagePreview = [UIView new];
+    self.topView = [UIToolbar new];
+    self.bottomView = [UIToolbar new];
+    self.cameraToolbar = [[CameraToolbar alloc] initWithImageNames:@[@"rotate", @"road"]];
+    self.cameraToolbar.delegate = self;
+    UIColor *whiteBG = [UIColor colorWithWhite:1.0 alpha:.15];
+    self.topView.barTintColor = whiteBG;
+    self.bottomView.barTintColor = whiteBG;
+    self.topView.alpha = 0.5;
+    self.bottomView.alpha = 0.5;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -253,7 +247,7 @@
 //place the camera toolbar at the bottom
 //top and bottom views cover the areas of the photo that wont be saved
 
--(void)viewWillLayoutSubviews {
+- (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
     
     CGFloat width = CGRectGetWidth(self.view.bounds);
@@ -289,9 +283,8 @@
 
 
 #pragma mark - CameraToolbarDelegate
-//left button flips between the front and rear cameras
 
--(void) leftButtonPressedOnToolbar:(CameraToolbar *)toolbar {
+- (void) leftButtonPressedOnToolbar:(CameraToolbar *)toolbar {
     AVCaptureDeviceInput *currentCameraInput = self.session.inputs.firstObject;
     
     NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
