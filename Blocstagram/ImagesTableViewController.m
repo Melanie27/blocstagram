@@ -293,15 +293,14 @@
 
 //override default logic for handling keyboard appearance and make sure cells aren't selected when the view appears
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:YES];
     NSIndexPath *indexPath = self.tableView.indexPathForSelectedRow;
     if (indexPath) {
         [self.tableView deselectRowAtIndexPath:indexPath animated:animated];
+        
     }
 }
 
-- (void) viewWillDisappear:(BOOL)animated {
-    
-}
 
 
 #pragma mark refresh
