@@ -159,7 +159,7 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     PHAsset *asset = self.result[indexPath.row];
     
-    //relates to requestion a single image instead of a collection
+    //relates to request a single image instead of a collection
     PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
     options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
     options.synchronous = YES;

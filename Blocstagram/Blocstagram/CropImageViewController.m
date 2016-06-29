@@ -9,11 +9,17 @@
 #import "CropImageViewController.h"
 #import "CropBox.h"
 #import "Media.h"
+#import "CameraToolbar.h"
 #import "UIImage+ImageUtilities.h"
 
 @interface CropImageViewController ()
-    @property (nonatomic, strong) CropBox *cropBox;
-    @property (nonatomic, assign) BOOL hasLoadedOnce;
+
+@property (nonatomic, strong) CropBox *cropBox;
+@property (nonatomic, assign) BOOL hasLoadedOnce;
+
+//stores the camera toolbar we created earlier in this checkpoint
+@property (nonatomic, strong) CameraToolbar *cameraToolbar;
+
 @end
 
 @implementation CropImageViewController
@@ -28,6 +34,8 @@
         
         //init cropBox
         self.cropBox = [CropBox new];
+        
+       
     }
     
     return self;
@@ -81,6 +89,8 @@
         self.hasLoadedOnce = YES;
     }
 }
+
+
 
 -(void) cropPressed:(UIBarButtonItem *)sender {
     CGRect visibleRect;
