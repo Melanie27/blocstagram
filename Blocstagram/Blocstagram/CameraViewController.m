@@ -71,23 +71,20 @@
     [self.imagePreview.layer addSublayer:self.captureVideoPreviewLayer];
     
     // #3
+    //request permission from the user to access the camera. Because the user might not reply immediately, the response is handled asynch in a completion block
     [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            // #4
+            // #4 user has accepted request
             if (granted) {
                 // #5
+                //create device - the camera
                 AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
                 
-                // #6
+                // #6 camera provides data to input object
                 NSError *error = nil;
                 AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:device error:&error];
                 if (!input) {
-                    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:error.localizedDescription message:error.localizedRecoverySuggestion preferredStyle:UIAlertControllerStyleAlert];
-                    [alertVC addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"OK button") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-                        [self.delegate cameraViewController:self didCompleteWithImage:nil];
-                    }]];
-                    
-                    [self presentViewController:alertVC animated:YES completion:nil];
+                    [self alertCamera];
                 } else {
                     // #7
                     
@@ -142,9 +139,6 @@
             image = [image imageResizedToMatchAspectRatioOfSize:self.captureVideoPreviewLayer.bounds.size];
             
             
-            
-            image = [image imageByScalingToSize:(CGSize)size addCroppingWithRect:rect];
-            
             // #12
             UIView *leftLine = self.verticalLines.firstObject;
             UIView *rightLine = self.verticalLines.lastObject;
@@ -167,16 +161,23 @@
             });
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:error.localizedDescription message:error.localizedRecoverySuggestion preferredStyle:UIAlertControllerStyleAlert];
-                [alertVC addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"OK button") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-                    [self.delegate cameraViewController:self didCompleteWithImage:nil];
-                }]];
+                [self alertCamera];
                 
-                [self presentViewController:alertVC animated:YES completion:nil];
+                
             });
             
         }
     }];
+}
+
+-(void) alertCamera {
+    NSError *error = nil;
+    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:error.localizedDescription message:error.localizedRecoverySuggestion preferredStyle:UIAlertControllerStyleAlert];
+    [alertVC addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"OK button") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        [self.delegate cameraViewController:self didCompleteWithImage:nil];
+    }]];
+    [self presentViewController:alertVC animated:YES completion:nil];
+
 }
 
 - (NSArray *) horizontalLines {

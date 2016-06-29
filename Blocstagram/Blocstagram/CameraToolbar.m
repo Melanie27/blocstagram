@@ -27,20 +27,24 @@
     self = [super init];
     
     if(self) {
+        //create the objects
         self.leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
         self.cameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
         self.rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
         
+        //add targets
         [self.leftButton addTarget:self action:@selector(leftButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         [self.cameraButton addTarget:self action:@selector(cameraButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         [self.rightButton addTarget:self action:@selector(rightButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         
+        //set images
         [self.leftButton setImage:[UIImage imageNamed:imageNames.firstObject] forState:UIControlStateNormal];
         [self.rightButton setImage:[UIImage imageNamed:imageNames.lastObject] forState:UIControlStateNormal];
         
         [self.cameraButton setImage:[UIImage imageNamed:@"camera"] forState:UIControlStateNormal];
         [self.cameraButton setContentEdgeInsets:UIEdgeInsetsMake(10, 10, 15, 10)];
         
+        //new instances of UIView class
         self.whiteView = [UIView new];
         self.whiteView.backgroundColor = [UIColor whiteColor];
         
@@ -60,6 +64,7 @@
 
 //position the views with auto layout
 -(void) createConstraints {
+    // Creates a dictionary wherein the keys are string representations of the corresponding values’ variable names
     NSDictionary *viewDictionary = NSDictionaryOfVariableBindings(_leftButton, _cameraButton, _rightButton, _whiteView, _purpleView);
     
     //The three buttons have equal widths and are distributed across the whole view

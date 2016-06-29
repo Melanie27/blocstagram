@@ -14,7 +14,7 @@
 @protocol CameraToolbarDelegate <NSObject>
 
 //toolbar will have 3 buttons declare the methods
-
+//instance methods
 -(void) leftButtonPressedOnToolbar:(CameraToolbar *) toolbar;
 - (void) rightButtonPressedOnToolbar:(CameraToolbar *)toolbar;
 - (void) cameraButtonPressedOnToolbar:(CameraToolbar *)toolbar;

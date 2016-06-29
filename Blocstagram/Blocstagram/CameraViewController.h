@@ -13,6 +13,7 @@
 //a delegate property and accompanying protocol will inform the presenting view controller when the camera VC is done
 @protocol CameraViewControllerDelegate <NSObject>
 
+//confused about sytax?
 -(void) cameraViewController:(CameraViewController *)cameraViewController didCompleteWithImage:(UIImage *)image;
 
 @end

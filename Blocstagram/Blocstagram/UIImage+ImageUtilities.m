@@ -149,49 +149,9 @@
 
 //new method to complete the related UIImage work that's currently done in the cameraVC, so that none of the other category methods need to be called in that VC
 
--(UIImage *) imageByScalingToSize:(CGSize)size addCroppingWithRect:(CGRect)rect {
+-(UIImage *)imageByScalingToSize:(CGSize)size andCroppingWithRect:(CGRect)rect {
     
-    //resizeing
-    CGFloat horizontalRatio = size.width / self.size.width;
-    CGFloat verticalRatio = size.height / self.size.height;
-    CGFloat ratio = MAX(horizontalRatio, verticalRatio);
-    CGSize newSize = CGSizeMake(self.size.width * ratio * self.scale, self.size.height * ratio * self.scale);
-    
-    CGRect newRect = CGRectIntegral(CGRectMake(0, 0, newSize.width, newSize.height));
-    CGImageRef imageRef = self.CGImage;
-    
-    CGContextRef ctx = CGBitmapContextCreate(NULL,
-                                             newRect.size.width,
-                                             newRect.size.height,
-                                             CGImageGetBitsPerComponent(self.CGImage),
-                                             0,
-                                             CGImageGetColorSpace(self.CGImage),
-                                             CGImageGetBitmapInfo(self.CGImage));
-    
-    // Draw into the context; this scales the image
-    CGContextDrawImage(ctx, newRect, imageRef);
-    
-    // Get the resized image from the context and a UIImage
-    CGImageRef newImageRef = CGBitmapContextCreateImage(ctx);
-    UIImage *newImage = [UIImage imageWithCGImage:newImageRef scale:self.scale orientation:UIImageOrientationUp];
-    
-    // Clean up
-    CGContextRelease(ctx);
-    CGImageRelease(newImageRef);
-    
-    return newImage;
-    
-    
-    //cropping
-    rect.size.width *= self.scale;
-    rect.size.height *= self.scale;
-    rect.origin.x *= self.scale;
-    rect.origin.y *= self.scale;
-    
-    CGImageRef imageRef = CGImageCreateWithImageInRect(self.CGImage, rect);
-    //UIImage *image = [UIImage imageWithCGImage:imageRef scale:self.scale orientation:self.imageOrientation];
-    CGImageRelease(imageRef);
-    return newImage;
+    return 0;
 }
 
 
