@@ -22,7 +22,7 @@
 -(instancetype) init {
     //collection views can have any layout - need a class to manage it. organizes items into a grid with optional header and footer
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc ] init];
-    layout.itemSize = CGSizeMake(100, 100);
+    layout.itemSize = CGSizeMake(350, 250);
     
     return [super initWithCollectionViewLayout:layout];
 }
@@ -59,14 +59,15 @@ static NSString * const reuseIdentifier = @"Cell";
     
     //at layout, calculate size of each cell
     CGFloat width = CGRectGetWidth(self.view.frame);
-    CGFloat minWidth = 100;
+    CGFloat minWidth = 350;
     NSInteger divisor = width / minWidth;
     CGFloat cellSize = width / divisor;
     
     UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.collectionViewLayout;
     flowLayout.itemSize = CGSizeMake(cellSize, cellSize);
-    flowLayout.minimumInteritemSpacing = 0;
-    flowLayout.minimumLineSpacing = 0;
+    flowLayout.minimumInteritemSpacing = 10;
+    flowLayout.minimumLineSpacing = 10;
+    
 }
 
 -(void) loadAssets {
