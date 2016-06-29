@@ -135,8 +135,8 @@
             UIImage *image = [UIImage imageWithData:imageData scale:[UIScreen mainScreen].scale];
             
             // #11
-            image = [image imageWithFixedOrientation];
-            image = [image imageResizedToMatchAspectRatioOfSize:self.captureVideoPreviewLayer.bounds.size];
+            //image = [image imageWithFixedOrientation];
+            //image = [image imageResizedToMatchAspectRatioOfSize:self.captureVideoPreviewLayer.bounds.size];
             
             
             // #12
@@ -150,10 +150,12 @@
                                          CGRectGetMaxX(rightLine.frame) - CGRectGetMinX(leftLine.frame),
                                          CGRectGetMinY(bottomLine.frame) - CGRectGetMinY(topLine.frame));
             
-            CGRect cropRect = gridRect;
-            cropRect.origin.x = (CGRectGetMinX(gridRect) + (image.size.width - CGRectGetWidth(gridRect)) / 2);
+            CGRect rect = gridRect;
+            rect.origin.x = (CGRectGetMinX(gridRect) + (image.size.width - CGRectGetWidth(gridRect)) / 2);
             
-            image = [image imageCroppedToRect:cropRect];
+           //NEW HOMEWORK METHOD
+            image = [image imageByScalingToSize:self.captureVideoPreviewLayer.bounds.size andCroppingWithRect:rect];
+            //image = [image imageCroppedToRect:cropRect];
             
             // #13
             dispatch_async(dispatch_get_main_queue(), ^{
