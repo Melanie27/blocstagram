@@ -106,7 +106,9 @@
         }]];
     } else {
         alertVC = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"No Instagram App", nil) message:NSLocalizedString(@"Add a caption and send your image in the Instagram app.", @"send image instructions") preferredStyle:UIAlertControllerStyleAlert];
-        
+        [alertVC addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+            textField.placeholder = NSLocalizedString(@"Caption", @"Caption");
+        }];
         [alertVC addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"OK button") style:UIAlertActionStyleCancel handler:nil]];
     }
     
