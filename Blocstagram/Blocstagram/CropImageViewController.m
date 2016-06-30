@@ -9,16 +9,14 @@
 #import "CropImageViewController.h"
 #import "CropBox.h"
 #import "Media.h"
-#import "CameraToolbar.h"
 #import "UIImage+ImageUtilities.h"
 
 @interface CropImageViewController ()
 
 @property (nonatomic, strong) CropBox *cropBox;
 @property (nonatomic, assign) BOOL hasLoadedOnce;
-
-//stores the camera toolbar we created earlier in this checkpoint
-@property (nonatomic, strong) CameraToolbar *cameraToolbar;
+@property (nonatomic, strong) UIToolbar *topView;
+@property (nonatomic, strong) UIToolbar *bottomView;
 
 @end
 
@@ -34,8 +32,6 @@
         
         //init cropBox
         self.cropBox = [CropBox new];
-        
-       
     }
     
     return self;
@@ -59,13 +55,60 @@
     
     //disable UINavigationController's behavior of automatically adjusting scroll view insets
     self.automaticallyAdjustsScrollViewInsets = NO;
-    
     self.view.backgroundColor = [UIColor colorWithWhite:.8 alpha:1];
+    
+    //adding toolbar
+    [self createViews];
+    [self addViewsToViewHierarchy];
+    [self createCancelButton];
+}
+
+- (void) createViews {
+   
+    self.topView = [UIToolbar new];
+    self.bottomView = [UIToolbar new];
+    UIColor *whiteBG = [UIColor colorWithWhite:1.0 alpha:.15];
+    self.topView.barTintColor = whiteBG;
+    self.bottomView.barTintColor = whiteBG;
+    self.topView.alpha = 0.5;
+    self.bottomView.alpha = 0.5;
+}
+
+- (void) addViewsToViewHierarchy {
+    NSMutableArray *views = [@[ self.topView, self.bottomView] mutableCopy];
+    
+    for (UIView *view in views) {
+        [self.view addSubview:view];
+    }
+}
+
+- (void) createCancelButton {
+    UIImage *cancelImage = [UIImage imageNamed:@"x"];
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithImage:cancelImage style:UIBarButtonItemStyleDone target:self action:@selector(cancelPressed:)];
+    self.navigationItem.leftBarButtonItem = cancelButton;
+}
+
+- (void) cancelPressed:(UIBarButtonItem *)sender {
+    [self.delegate cropControllerFinishedWithImage:nil];
 }
 
 //only responsible for laying out the views we've added, and modifying superclass behavior
 -(void) viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
+    
+    if (self.hasLoadedOnce == NO) {
+        self.scrollView.zoomScale = self.scrollView.minimumZoomScale;
+        self.hasLoadedOnce = YES;
+    }
+    
+    //transparent top and bottom views
+    CGFloat width = CGRectGetWidth(self.view.bounds);
+    self.topView.frame = CGRectMake(0, self.topLayoutGuide.length, width, 84);
+    
+    CGFloat yOriginOfBottomView = CGRectGetMaxY(self.topView.frame) + width;
+    CGFloat heightOfBottomView = CGRectGetHeight(self.view.frame) - yOriginOfBottomView;
+    self.bottomView.frame = CGRectMake(0, yOriginOfBottomView, width, heightOfBottomView);
+    
     
     //sizes and centers CropBox
     CGRect cropRect = CGRectNull;
@@ -83,11 +126,6 @@
     self.scrollView.clipsToBounds = NO;
     
     [self recalculateZoomScale];
-    
-    if (self.hasLoadedOnce == NO) {
-        self.scrollView.zoomScale = self.scrollView.minimumZoomScale;
-        self.hasLoadedOnce = YES;
-    }
 }
 
 
