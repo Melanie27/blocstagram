@@ -135,9 +135,9 @@
             UIImage *image = [UIImage imageWithData:imageData scale:[UIScreen mainScreen].scale];
             
             // #11
-            //image = [image imageWithFixedOrientation];
+            image = [image imageWithFixedOrientation];
             //image = [image imageResizedToMatchAspectRatioOfSize:self.captureVideoPreviewLayer.bounds.size];
-            
+            image = [image imageByScalingToSize:self.captureVideoPreviewLayer.bounds.size andCroppingWithRect:CGRectMake(0, 0, image.size.width, image.size.height)];
             
             // #12
             UIView *leftLine = self.verticalLines.firstObject;
@@ -154,12 +154,15 @@
             rect.origin.x = (CGRectGetMinX(gridRect) + (image.size.width - CGRectGetWidth(gridRect)) / 2);
             
            //NEW HOMEWORK METHOD
-            image = [image imageByScalingToSize:self.captureVideoPreviewLayer.bounds.size andCroppingWithRect:rect];
+            //            image = [image imageByScalingToSize:self.captureVideoPreviewLayer.bounds.size andCroppingWithRect:rect];
+            image = [image imageByScalingToSize:image.size andCroppingWithRect:rect];
+            
             //image = [image imageCroppedToRect:cropRect];
             
             // #13
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.delegate cameraViewController:self didCompleteWithImage:image];
+             //   [self dismissViewControllerAnimated:YES completion:^{}];
             });
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{

@@ -12,7 +12,7 @@
 
 //create 3 methods
 
-//- (UIImage *) imageWithFixedOrientation;
+- (UIImage *) imageWithFixedOrientation;
 //- (UIImage *) imageResizedToMatchAspectRatioOfSize:(CGSize)size;
 //- (UIImage *) imageCroppedToRect:(CGRect)cropRect;
 
