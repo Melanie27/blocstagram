@@ -66,9 +66,9 @@
         [self.sendButton addTarget:self action:@selector(sendButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         
         self.sendBarButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Send", @"Send button") style:UIBarButtonItemStyleDone target:self action:@selector(sendButtonPressed:)];
-    
-        //[self addFiltersToQueue];
-    
+        
+        [self addFiltersToQueue];
+        
     }
     
     return self;
@@ -107,9 +107,7 @@
         }]];
     } else {
         alertVC = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"No Instagram App", nil) message:NSLocalizedString(@"Add a caption and send your image in the Instagram app.", @"send image instructions") preferredStyle:UIAlertControllerStyleAlert];
-        [alertVC addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-            textField.placeholder = NSLocalizedString(@"Caption", @"Caption");
-        }];
+        
         [alertVC addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"OK button") style:UIAlertActionStyleCancel handler:nil]];
     }
     
@@ -159,8 +157,7 @@
     // Do any additional setup after loading the view.
     
     [self.view addSubview:self.previewImageView];
-    //This should be moved to subclass
-    //[self.view addSubview:self.filterCollectionView];
+    [self.view addSubview:self.filterCollectionView];
     
     if (CGRectGetHeight(self.view.frame) > 500) {
         [self.view addSubview:self.sendButton];
@@ -168,8 +165,8 @@
         self.navigationItem.rightBarButtonItem = self.sendBarButton;
     }
     
-    //move this to subclass
     [self.filterCollectionView registerClass:[InstagramCollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
+    
     self.view.backgroundColor = [UIColor whiteColor];
     self.filterCollectionView.backgroundColor = [UIColor whiteColor];
     
@@ -181,11 +178,6 @@
     [super viewWillLayoutSubviews];
     
     CGFloat edgeSize = MIN(CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame));
-    
-    //in iPhone 6+ the popover is too small for the user to be able to easily see filter views
-    if (CGRectGetHeight(self.view.bounds) < edgeSize * 1.5) {
-        edgeSize /= 1.5;
-    }
     
     self.previewImageView.frame = CGRectMake(0, self.topLayoutGuide.length, edgeSize, edgeSize);
     
@@ -215,8 +207,6 @@
     return self.filterImages.count;
 }
 
-
-//MOVE THIS TO INSTAGRAMCOLLECTIONVIEW CELL
 //When the cell loads, make sure there is an image view and label on it and set their content from the appropriate arrays
 - (UICollectionViewCell*) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
@@ -226,26 +216,6 @@
     
     UIImageView *thumbnail = (UIImageView *)[cell.contentView viewWithTag:imageViewTag];
     UILabel *label = (UILabel *)[cell.contentView viewWithTag:labelTag];
-    
-    UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.filterCollectionView.collectionViewLayout;
-    CGFloat thumbnailEdgeSize = flowLayout.itemSize.width;
-    
-    if (!thumbnail) {
-        thumbnail = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, thumbnailEdgeSize, thumbnailEdgeSize)];
-        thumbnail.contentMode = UIViewContentModeScaleAspectFill;
-        thumbnail.tag = imageViewTag;
-        thumbnail.clipsToBounds = YES;
-        
-        [cell.contentView addSubview:thumbnail];
-    }
-    
-    if (!label) {
-        label = [[UILabel alloc] initWithFrame:CGRectMake(0, thumbnailEdgeSize, thumbnailEdgeSize, 20)];
-        label.tag = labelTag;
-        label.textAlignment = NSTextAlignmentCenter;
-        label.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:10];
-        [cell.contentView addSubview:label];
-    }
     
     thumbnail.image = self.filterImages[indexPath.row];
     label.text = self.filterTitles[indexPath.row];
@@ -309,18 +279,6 @@
         }
     }];
     
-    //Chrome Filter
-    
-    [self.photoFilterOperationQueue addOperationWithBlock:^{
-        CIFilter *chromeFilter = [CIFilter filterWithName:@"CIPhotoEffectChrome"];
-        //check to make sure it's not nil
-        if (chromeFilter) {
-            [chromeFilter setValue:sourceCIImage forKey:kCIInputImageKey];
-            [self addCIImageToCollectionView:chromeFilter.outputImage withFilterTitle:NSLocalizedString(@"Chrome", @"Chrome Filter")];
-        }
-    }];
-    
-    
     // Warm filter
     
     [self.photoFilterOperationQueue addOperationWithBlock:^{
@@ -354,6 +312,38 @@
         }
     }];
     
+    //Assignment Filters
+    
+    //Chrome Filter
+    
+    [self.photoFilterOperationQueue addOperationWithBlock:^{
+        CIFilter *chromeFilter = [CIFilter filterWithName:@"CIPhotoEffectChrome"];
+        //check to make sure it's not nil
+        if (chromeFilter) {
+            [chromeFilter setValue:sourceCIImage forKey:kCIInputImageKey];
+            [self addCIImageToCollectionView:chromeFilter.outputImage withFilterTitle:NSLocalizedString(@"Chrome", @"Chrome Filter")];
+        }
+    }];
+    
+    
+    //Compound Assignment Filter
+    [self.photoFilterOperationQueue addOperationWithBlock:^{
+     CIFilter *invertFilter = [CIFilter filterWithName:@"CIColorInvert"];
+     
+        if(invertFilter) {
+        
+            [invertFilter setValue:sourceCIImage forKey:kCIInputImageKey];
+            //[self addCIImageToCollectionView:invertFilter.outputImage withFilterTitle:NSLocalizedString(@"Invert", @"Invertyy Filter")];
+            CIImage *invertResult = invertFilter.outputImage;
+            CIFilter *noirFilter = [CIFilter filterWithName:@"CIPhotoEffectNoir"];
+           
+            if (noirFilter) {
+                [noirFilter setValue:invertResult forKey:kCIInputImageKey];
+                [self addCIImageToCollectionView:noirFilter.outputImage withFilterTitle:NSLocalizedString(@"Invert Noir", @"Invert Noir Filter")];
+            }
+        }
+     }];
+    
     // Drunk filter
     
     [self.photoFilterOperationQueue addOperationWithBlock:^{
@@ -377,26 +367,6 @@
             [self addCIImageToCollectionView:result withFilterTitle:NSLocalizedString(@"Drunk", @"Drunk Filter")];
         }
     }];
-    
-    
-    //Compound Assignment Filter
-    /*[self.photoFilterOperationQueue addOperationWithBlock:^{
-        CIFilter *invertFilter = [CIFilter filterWithName:@"CIColorInvert"];
-        [invertFilter setValue:sourceCIImage forKey:kCIInputImageKey];
-        
-        CIFilter *tileFilter = [CIFilter filterWithName:@"CIFourfoldTranslatedTile"];
-        
-       CIImage *result = invertFilter.outputImage;
-        
-        if (tileFilter) {
-            [tileFilter setValue:result forKeyPath:kCIInputImageKey];
-            [tileFilter setValue:@0.6 forKeyPath:kCIInputAngleKey];
-            //[tileFilter setValue:@102.6 forKeyPath:kCIInputWidthKey];
-            result = tileFilter.outputImage;
-        }
-
-        [self addCIImageToCollectionView:result withFilterTitle:NSLocalizedString(@"Invert", @"Invertyy Filter")];
-    }];*/
     
     // Film filter
     
@@ -472,14 +442,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
