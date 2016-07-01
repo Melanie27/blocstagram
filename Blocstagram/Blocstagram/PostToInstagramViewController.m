@@ -7,6 +7,7 @@
 //
 
 #import "PostToInstagramViewController.h"
+#import "InstagramCollectionViewCell.h"
 
 @interface PostToInstagramViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIDocumentInteractionControllerDelegate>
 
@@ -66,7 +67,7 @@
         
         self.sendBarButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Send", @"Send button") style:UIBarButtonItemStyleDone target:self action:@selector(sendButtonPressed:)];
     
-        [self addFiltersToQueue];
+        //[self addFiltersToQueue];
     
     }
     
@@ -158,7 +159,8 @@
     // Do any additional setup after loading the view.
     
     [self.view addSubview:self.previewImageView];
-    [self.view addSubview:self.filterCollectionView];
+    //This should be moved to subclass
+    //[self.view addSubview:self.filterCollectionView];
     
     if (CGRectGetHeight(self.view.frame) > 500) {
         [self.view addSubview:self.sendButton];
@@ -166,8 +168,8 @@
         self.navigationItem.rightBarButtonItem = self.sendBarButton;
     }
     
-    [self.filterCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
-    
+    //move this to subclass
+    [self.filterCollectionView registerClass:[InstagramCollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
     self.view.backgroundColor = [UIColor whiteColor];
     self.filterCollectionView.backgroundColor = [UIColor whiteColor];
     
@@ -213,6 +215,8 @@
     return self.filterImages.count;
 }
 
+
+//MOVE THIS TO INSTAGRAMCOLLECTIONVIEW CELL
 //When the cell loads, make sure there is an image view and label on it and set their content from the appropriate arrays
 - (UICollectionViewCell*) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
@@ -305,6 +309,18 @@
         }
     }];
     
+    //Chrome Filter
+    
+    [self.photoFilterOperationQueue addOperationWithBlock:^{
+        CIFilter *chromeFilter = [CIFilter filterWithName:@"CIPhotoEffectChrome"];
+        //check to make sure it's not nil
+        if (chromeFilter) {
+            [chromeFilter setValue:sourceCIImage forKey:kCIInputImageKey];
+            [self addCIImageToCollectionView:chromeFilter.outputImage withFilterTitle:NSLocalizedString(@"Chrome", @"Chrome Filter")];
+        }
+    }];
+    
+    
     // Warm filter
     
     [self.photoFilterOperationQueue addOperationWithBlock:^{
@@ -361,6 +377,26 @@
             [self addCIImageToCollectionView:result withFilterTitle:NSLocalizedString(@"Drunk", @"Drunk Filter")];
         }
     }];
+    
+    
+    //Compound Assignment Filter
+    /*[self.photoFilterOperationQueue addOperationWithBlock:^{
+        CIFilter *invertFilter = [CIFilter filterWithName:@"CIColorInvert"];
+        [invertFilter setValue:sourceCIImage forKey:kCIInputImageKey];
+        
+        CIFilter *tileFilter = [CIFilter filterWithName:@"CIFourfoldTranslatedTile"];
+        
+       CIImage *result = invertFilter.outputImage;
+        
+        if (tileFilter) {
+            [tileFilter setValue:result forKeyPath:kCIInputImageKey];
+            [tileFilter setValue:@0.6 forKeyPath:kCIInputAngleKey];
+            //[tileFilter setValue:@102.6 forKeyPath:kCIInputWidthKey];
+            result = tileFilter.outputImage;
+        }
+
+        [self addCIImageToCollectionView:result withFilterTitle:NSLocalizedString(@"Invert", @"Invertyy Filter")];
+    }];*/
     
     // Film filter
     
