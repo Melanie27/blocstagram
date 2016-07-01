@@ -84,7 +84,7 @@
                 NSError *error = nil;
                 AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:device error:&error];
                 if (!input) {
-                    [self alertCamera];
+                    [self alertCamera:@"User denied permission" withMessage:@"Didn't Work"];
                 } else {
                     // #7
                     
@@ -166,7 +166,7 @@
             });
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self alertCamera];
+                [self alertCamera:@"Taking Pic Failed" withMessage:@"Didn't Work"];
                 
                 
             });
@@ -175,9 +175,10 @@
     }];
 }
 
--(void) alertCamera {
+-(void) alertCamera:(NSString*)title withMessage:(NSString*)message {
     NSError *error = nil;
-    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:error.localizedDescription message:error.localizedRecoverySuggestion preferredStyle:UIAlertControllerStyleAlert];
+//    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:error.localizedDescription message:error.localizedRecoverySuggestion preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     [alertVC addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"OK button") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
         [self.delegate cameraViewController:self didCompleteWithImage:nil];
     }]];
