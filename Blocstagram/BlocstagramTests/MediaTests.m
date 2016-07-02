@@ -48,6 +48,11 @@
     XCTAssertEqualObjects(testMedia.temporaryComment, sourceDictionary[@"temporary_comment"], @"The temp comments should be equal");
 }
 
+
+
+//test to ensure that [MediaTableViewCell+ heightForMediaItem:width:] returns accurate heights. add sample images
+
+
 - (void)setUp {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -57,6 +62,8 @@
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
 }
+
+
 
 
 @end
