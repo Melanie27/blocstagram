@@ -10,9 +10,11 @@
 #import "ImagesTableViewController.h"
 #import "LoginViewController.h"
 #import "DataSource.h"
+#import "MediaFullScreenViewController.h"
+#import "MediaTableViewCell.h"
 
-@interface AppDelegate ()
-
+@interface AppDelegate ()  <UIGestureRecognizerDelegate>
+ @property (nonatomic, strong) UITapGestureRecognizer *tapGR;
 @end
 
 @implementation AppDelegate
@@ -26,6 +28,11 @@
     [DataSource sharedInstance]; // create the data source (so it can receive the access token notification)
     
     UINavigationController *navVC = [[UINavigationController alloc] init];
+    
+    //self.tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapFiredWindow:)];
+    //self.tapGR.delegate = self;
+    //[self.window addGestureRecognizer:self.tapGR];
+    
     
     
     //update to show appropriate view on launch
@@ -54,6 +61,16 @@
     [self.window makeKeyAndVisible];
     return YES;
 }
+
+
+
+
+/*-(void)tapFiredWindow:(UITapGestureRecognizer*)recognizer {
+    //[self.window dismissViewControllerAnimated:YES completion:nil];
+    NSLog(@"tapped the window");
+    
+   
+}*/
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
