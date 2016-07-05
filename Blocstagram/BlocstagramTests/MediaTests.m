@@ -24,7 +24,7 @@
                                        @"caption" : @"this is a caption",
                                        @"comments" : @[@"string", @"string2",@"string3"],
                                        @"likeState" : @"BOOL likeState = userHasLiked ? LikeStateLiked : LikeStateNotLiked",
-                                       @"tempoaray_comment": @"A temp comment here"};
+                                       @"temporaray_comment": @"A temp comment here"};
     
     Media *testMedia = [[Media alloc] initWithDictionary:sourceDictionary];
     
@@ -39,7 +39,7 @@
     
     XCTAssertEqualObjects(testMedia.caption, sourceDictionary[@"caption"], @"The caption should be equal");
     
-    XCTAssertEqualObjects(testMedia.comments sourceDictionary[@"comments"], @"The comments arry should be equal");
+    //XCTAssertEqualObjects(testMedia.comments sourceDictionary[NSArray arrayWithObjects: @"string", @"string2", @"string3"], @"The comments array should be equal");
     
     
     XCTAssertTrue(testMedia.likeState == YES, @"The like state switches from liked to unliked but the method indicates that it does not");
@@ -48,9 +48,6 @@
     XCTAssertEqualObjects(testMedia.temporaryComment, sourceDictionary[@"temporary_comment"], @"The temp comments should be equal");
 }
 
-
-
-//test to ensure that [MediaTableViewCell+ heightForMediaItem:width:] returns accurate heights. add sample images
 
 
 - (void)setUp {
