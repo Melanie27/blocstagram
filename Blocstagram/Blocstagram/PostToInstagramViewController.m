@@ -65,9 +65,9 @@
         [self.sendButton addTarget:self action:@selector(sendButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         
         self.sendBarButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Send", @"Send button") style:UIBarButtonItemStyleDone target:self action:@selector(sendButtonPressed:)];
-    
+        
         [self addFiltersToQueue];
-    
+       
     }
     
     return self;
@@ -157,6 +157,7 @@
     
     [self.view addSubview:self.previewImageView];
     [self.view addSubview:self.filterCollectionView];
+   
     
     if (CGRectGetHeight(self.view.frame) > 500) {
         [self.view addSubview:self.sendButton];
@@ -170,13 +171,40 @@
     self.filterCollectionView.backgroundColor = [UIColor whiteColor];
     
     self.navigationItem.title = NSLocalizedString(@"Apply Filter", @"apply filter view title");
+
+    
 }
+
+
 
 
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
     
-    CGFloat edgeSize = MIN(CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame));
+    NSDictionary *subViewDictionary = NSDictionaryOfVariableBindings(_filterCollectionView, _sendButton, _sendBarButton);
+    
+
+    NSArray *filterCollectionViewVerticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_filterCollectioView(65)]|" options:kNilOptions metrics:nil views:subViewDictionary];
+    
+    NSArray *sendButtonVerticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_sendButton(50)]|" options:kNilOptions metrics:nil views:subViewDictionary];
+    NSArray *sendButtonHorizontalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_sendButton(300)]|" options:kNilOptions metrics:nil views:subViewDictionary];
+    
+    NSArray *sendBarButtonVerticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_sendBarButton(50)]|" options:kNilOptions metrics:nil views:subViewDictionary];
+    NSArray *sendBarButtonHorizontalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_sendBarButton(200)]|" options:kNilOptions metrics:nil views:subViewDictionary];
+    
+    NSArray *allConstraintArrays = @[filterCollectionViewVerticalConstraints, sendButtonVerticalConstraints, sendButtonHorizontalConstraints, sendBarButtonVerticalConstraints, sendBarButtonHorizontalConstraints];
+    
+    for (NSArray *constraintsArray in allConstraintArrays) {
+        for (NSLayoutConstraint *constraint in constraintsArray) {
+            [self.view addConstraint:constraint];
+        }
+    }
+    
+       //NSArray *buttonHorizontalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-|" options:kNilOptions metrics:nil ];]
+    //NSArry *buttonVerticalConstraints
+    
+    
+    /*CGFloat edgeSize = MIN(CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame));
     
     //in iPhone 6+ the popover is too small for the user to be able to easily see filter views
     if (CGRectGetHeight(self.view.bounds) < edgeSize * 1.5) {
@@ -184,6 +212,8 @@
     }
     
     self.previewImageView.frame = CGRectMake(0, self.topLayoutGuide.length, edgeSize, edgeSize);
+    
+    
     
     CGFloat buttonHeight = 50;
     CGFloat buffer = 10;
@@ -202,7 +232,7 @@
     self.filterCollectionView.frame = CGRectMake(0, filterViewYOrigin, CGRectGetWidth(self.view.frame), filterViewHeight);
     
     UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)self.filterCollectionView.collectionViewLayout;
-    flowLayout.itemSize = CGSizeMake(CGRectGetHeight(self.filterCollectionView.frame) - 20, CGRectGetHeight(self.filterCollectionView.frame));
+    flowLayout.itemSize = CGSizeMake(CGRectGetHeight(self.filterCollectionView.frame) - 20, CGRectGetHeight(self.filterCollectionView.frame));*/
 }
 
 #pragma mark - UICollectionView delegate and data source
