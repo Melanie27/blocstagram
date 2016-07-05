@@ -43,6 +43,7 @@
 		9B44EB591D1DCDB4001D7CAA /* ImageLibraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B44EB581D1DCDB4001D7CAA /* ImageLibraryViewController.m */; };
 		9B44EB5C1D1DDE69001D7CAA /* PostToInstagramViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B44EB5B1D1DDE69001D7CAA /* PostToInstagramViewController.m */; };
 		9B44EB5E1D220232001D7CAA /* UserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B44EB5D1D220232001D7CAA /* UserTests.m */; };
+		9B92AD311D2C3777009D3F36 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B92AD301D2C3777009D3F36 /* Launch Screen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,6 +127,7 @@
 		9B44EB5A1D1DDE69001D7CAA /* PostToInstagramViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PostToInstagramViewController.h; path = ../../Blocstagram/Blocstagram/PostToInstagramViewController.h; sourceTree = "<group>"; };
 		9B44EB5B1D1DDE69001D7CAA /* PostToInstagramViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PostToInstagramViewController.m; path = ../../Blocstagram/Blocstagram/PostToInstagramViewController.m; sourceTree = "<group>"; };
 		9B44EB5D1D220232001D7CAA /* UserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserTests.m; path = ../../Blocstagram/BlocstagramTests/UserTests.m; sourceTree = "<group>"; };
+		9B92AD301D2C3777009D3F36 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = "Launch Screen.storyboard"; path = "../../Blocstagram/Blocstagram/Launch Screen.storyboard"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -226,6 +228,7 @@
 				9B17EC841D00D473000B2B10 /* AppDelegate.h */,
 				9B17EC851D00D473000B2B10 /* AppDelegate.m */,
 				9B17EC8D1D00D473000B2B10 /* Assets.xcassets */,
+				9B92AD301D2C3777009D3F36 /* Launch Screen.storyboard */,
 				9B0C885A1D18BF6400135BB0 /* CameraToolbar.h */,
 				9B0C885B1D18BF6400135BB0 /* CameraToolbar.m */,
 				9B0C885D1D18CBFB00135BB0 /* CameraViewController.h */,
@@ -397,6 +400,7 @@
 				9B17ECC61D00DAD2000B2B10 /* 8.jpg in Resources */,
 				9B17ECC21D00DAD2000B2B10 /* 4.jpg in Resources */,
 				9B17ECC11D00DAD2000B2B10 /* 3.jpg in Resources */,
+				9B92AD311D2C3777009D3F36 /* Launch Screen.storyboard in Resources */,
 				9B17ECC41D00DAD2000B2B10 /* 6.jpg in Resources */,
 				9B17ECBF1D00DAD2000B2B10 /* 1.jpg in Resources */,
 				9B17EC911D00D473000B2B10 /* LaunchScreen.storyboard in Resources */,
