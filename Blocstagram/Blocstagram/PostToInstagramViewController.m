@@ -181,13 +181,13 @@
     CGFloat edgeSize = MIN(CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame));
     
     //in iPhone 6+ the popover is too small for the user to be able to easily see filter views
-    if (CGRectGetHeight(self.view.bounds) < edgeSize * 1.5) {
+    if (CGRectGetHeight(self.view.bounds) < edgeSize * 1.7) {
         edgeSize /= 1.5;
     }
     
     self.previewImageView.frame = CGRectMake(0, self.topLayoutGuide.length, edgeSize, edgeSize);
     
-    CGFloat buttonHeight = 50;
+    CGFloat buttonHeight = 60;
     CGFloat buffer = 10;
     
     CGFloat filterViewYOrigin = CGRectGetMaxY(self.previewImageView.frame) + buffer;
@@ -239,7 +239,7 @@
         label = [[UILabel alloc] initWithFrame:CGRectMake(0, thumbnailEdgeSize, thumbnailEdgeSize, 20)];
         label.tag = labelTag;
         label.textAlignment = NSTextAlignmentCenter;
-        label.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:10];
+        label.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:12];
         [cell.contentView addSubview:label];
     }
     
@@ -354,7 +354,7 @@
             
             if (tiltFilter) {
                 [tiltFilter setValue:result forKeyPath:kCIInputImageKey];
-                [tiltFilter setValue:@0.2 forKeyPath:kCIInputAngleKey];
+                [tiltFilter setValue:@0.6 forKeyPath:kCIInputAngleKey];
                 result = tiltFilter.outputImage;
             }
             
