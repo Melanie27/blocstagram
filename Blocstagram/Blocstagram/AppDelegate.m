@@ -29,8 +29,8 @@
     
     UINavigationController *navVC = [[UINavigationController alloc] init];
     
-    //self.tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapFiredWindow:)];
-    //self.tapGR.delegate = self;
+    self.tapGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapFiredWindow:)];
+    self.tapGR.delegate = self;
     //[self.window addGestureRecognizer:self.tapGR];
     
     

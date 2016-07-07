@@ -31,6 +31,13 @@
 //shares the image to instagram
 @property (nonatomic, strong) UIDocumentInteractionController *documentController;
 
+//constraints
+@property (nonatomic, strong) NSLayoutConstraint *previewImageViewHeightConstraint;
+@property (nonatomic, strong) NSLayoutConstraint *sendButtonHeightConstraint;
+@property (nonatomic, strong) NSLayoutConstraint *filterCollectionViewHeightConstraint;
+@property (nonatomic, strong) NSLayoutConstraint *previewImageViewBottomMarginConstraint;
+@property (nonatomic, strong) NSLayoutConstraint *centerSendButton;
+
 @end
 
 @implementation PostToInstagramViewController
@@ -180,28 +187,79 @@
 
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
+    CGFloat edgeSize = MIN(CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame));
+    CGFloat buttonHeight = 50;
+    CGFloat buffer = 10;
+    self.previewImageView.frame = CGRectMake(0, self.topLayoutGuide.length, edgeSize, edgeSize);
+    CGFloat filterViewHeight;
+    filterViewHeight = CGRectGetHeight(self.view.frame) - CGRectGetMaxY(self.previewImageView.frame) - buffer - buffer;
+    NSDictionary *subViewDictionary = NSDictionaryOfVariableBindings( _previewImageView, _filterCollectionView, _sendButton, _sendBarButton, self.view);
     
-    NSDictionary *subViewDictionary = NSDictionaryOfVariableBindings(_filterCollectionView, _sendButton, _sendBarButton);
-    
-
-    NSArray *filterCollectionViewVerticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_filterCollectioView(65)]|" options:kNilOptions metrics:nil views:subViewDictionary];
-    
-    NSArray *sendButtonVerticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_sendButton(50)]|" options:kNilOptions metrics:nil views:subViewDictionary];
-    NSArray *sendButtonHorizontalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_sendButton(300)]|" options:kNilOptions metrics:nil views:subViewDictionary];
-    
-    NSArray *sendBarButtonVerticalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_sendBarButton(50)]|" options:kNilOptions metrics:nil views:subViewDictionary];
-    NSArray *sendBarButtonHorizontalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_sendBarButton(200)]|" options:kNilOptions metrics:nil views:subViewDictionary];
-    
-    NSArray *allConstraintArrays = @[filterCollectionViewVerticalConstraints, sendButtonVerticalConstraints, sendButtonHorizontalConstraints, sendBarButtonVerticalConstraints, sendBarButtonHorizontalConstraints];
-    
-    for (NSArray *constraintsArray in allConstraintArrays) {
-        for (NSLayoutConstraint *constraint in constraintsArray) {
-            [self.view addConstraint:constraint];
-        }
+    for (UIView *view in @[self.previewImageView, self.filterCollectionView, self.sendButton]) {
+        [self.view addSubview:view];
+        view.translatesAutoresizingMaskIntoConstraints = NO;
     }
     
-       //NSArray *buttonHorizontalConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-|" options:kNilOptions metrics:nil ];]
-    //NSArry *buttonVerticalConstraints
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_previewImageView]|" options:kNilOptions metrics:nil views:subViewDictionary]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[_filterCollectionView]-10-|" options:kNilOptions metrics:nil views:subViewDictionary]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-25-[_sendButton]-25-|" options:kNilOptions metrics:nil views:subViewDictionary]];
+    
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_previewImageView][_filterCollectionView]-40-[_sendButton]"
+                                                                             options:kNilOptions
+                                                                             metrics:nil
+                                                                               views:subViewDictionary]];
+    
+    
+   //height constraints
+    self.sendButtonHeightConstraint = [NSLayoutConstraint constraintWithItem:_sendButton
+                                                                   attribute:NSLayoutAttributeHeight
+                                                                   relatedBy:NSLayoutRelationEqual
+                                                                      toItem:nil
+                                                                   attribute:NSLayoutAttributeNotAnAttribute
+                                                                  multiplier:1
+                                                                    constant:buttonHeight];
+    self.previewImageViewHeightConstraint.identifier = @"Button height constraint";
+    
+    self.previewImageViewHeightConstraint= [NSLayoutConstraint constraintWithItem:_previewImageView
+                                                                      attribute:NSLayoutAttributeHeight
+                                                                      relatedBy:NSLayoutRelationEqual
+                                                                         toItem:self.view
+                                                                      attribute:NSLayoutAttributeHeight
+                                                                     multiplier:.67
+                                                                       constant:0];
+    self.previewImageViewHeightConstraint.identifier = @"Image height constraint";
+    
+    self.previewImageViewBottomMarginConstraint= [NSLayoutConstraint constraintWithItem:_previewImageView
+                                                                        attribute:NSLayoutAttributeBottom
+                                                                        relatedBy:NSLayoutRelationEqual
+                                                                           toItem:_filterCollectionView
+                                                                        attribute:NSLayoutAttributeTop
+                                                                       multiplier:1
+                                                                         constant:-20];
+    self.previewImageViewHeightConstraint.identifier = @"Image Bottom Margin";
+    
+    self.filterCollectionViewHeightConstraint = [NSLayoutConstraint constraintWithItem:_filterCollectionView
+                                                                             attribute:NSLayoutAttributeHeight
+                                                                             relatedBy:NSLayoutRelationEqual
+                                                                                toItem:nil
+                                                                             attribute:NSLayoutAttributeNotAnAttribute
+                                                                            multiplier:1
+                                                                              constant:100];
+
+    self.filterCollectionViewHeightConstraint.identifier = @"Collection height constraint";
+    
+    self.centerSendButton = [NSLayoutConstraint constraintWithItem:_sendButton
+                                                         attribute:NSLayoutAttributeCenterX
+                                                         relatedBy:NSLayoutRelationEqual
+                                                            toItem:self.view
+                                                         attribute:NSLayoutAttributeCenterXWithinMargins
+                                                        multiplier:1
+                                                          constant:100];
+    self.centerSendButton.identifier = @"Center button constraint";
+    
+    [self.view addConstraints:@[self.previewImageViewHeightConstraint, self.filterCollectionViewHeightConstraint, self.previewImageViewBottomMarginConstraint, self.sendButtonHeightConstraint, self.centerSendButton]];
+    
+    
     
     
     /*CGFloat edgeSize = MIN(CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame));
