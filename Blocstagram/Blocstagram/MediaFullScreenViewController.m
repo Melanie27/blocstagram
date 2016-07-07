@@ -15,6 +15,7 @@
 //add properties for gesture recognizer
 @property (nonatomic, strong) UITapGestureRecognizer *tap;
 @property (nonatomic, strong) UITapGestureRecognizer *doubleTap;
+@property (nonatomic, strong) UITapGestureRecognizer *recognizer;
 
 @end
 
@@ -64,8 +65,16 @@
     
     [self.tap requireGestureRecognizerToFail:self.doubleTap];
     
+    
+    
+    self.recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapBehind:)];
+    self.recognizer.numberOfTapsRequired = 1;
+    self.recognizer.cancelsTouchesInView = NO;
+    [self.view.window addGestureRecognizer:self.recognizer];
+    
     [self.scrollView addGestureRecognizer:self.tap];
     [self.scrollView addGestureRecognizer:self.doubleTap];
+    [self.scrollView addGestureRecognizer:self.recognizer];
     
 }
 
@@ -175,6 +184,30 @@
     }
 }
 
+- (void)handleTapBehind:(UITapGestureRecognizer *)sender {
+    NSLog(@"handleTapBehind");
+    if (sender.state == UIGestureRecognizerStateEnded) {
+        
+        CGPoint location = [sender locationInView:nil];
+        
+        if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)  ){
+            location = CGPointMake(location.y, location.x);
+            NSLog(@"landscape");
+        }
+        
+        // if tap outside pincode inputscreen
+        BOOL inView = [self.view pointInside:[self.view convertPoint:location fromView:self.view] withEvent:nil];
+        if (inView) {
+            NSLog(@"tapped inside");
+            
+        } else {
+            //nothing happens
+            NSLog(@"tapped outside");
+            [self.view removeGestureRecognizer:sender];
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+    }
+}
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
     return YES;
 }
