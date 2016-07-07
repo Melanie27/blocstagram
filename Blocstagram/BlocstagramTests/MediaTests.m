@@ -8,6 +8,8 @@
 
 #import <XCTest/XCTest.h>
 #import "Media.h"
+#import "Comment.h"
+#import "User.h"
 
 @interface MediaTests : XCTestCase
 
@@ -17,12 +19,28 @@
 
 -(void)testThatInitializationWorks {
     NSDictionary *sourceDictionary = @{@"id":@"8675309",
-                                       @"user" : @"d'oh",
+                                       @"user":@{
+                                               @"id":@11,
+                                               @"username":@"user45",
+                                               @"fullname":@"Person 45"
+                                               },
+
                                        @"image" : @"http://www.example.com/example.jpg",
                                        
                                        @"downloadState" : @"BOOL downloadState = ",
-                                       @"caption" : @"this is a caption",
-                                       @"comments" : @[@"string", @"string2",@"string3"],
+                                       @"caption" : @{
+                                                    @"text":@"a caption"
+                                                    },
+                                       @"comments" : @{@"data":@[
+                                                               @{@"id":@45,
+                                                                 @"text":@"Here is the actual comment",
+                                                                 @"user":@{
+                                                                     @"id":@10,
+                                                                     @"username":@"user4",
+                                                                     @"fullname":@"Person 4"
+                                                                     }
+                                                                 }
+                                                               ]},
                                        @"likeState" : @"BOOL likeState = userHasLiked ? LikeStateLiked : LikeStateNotLiked",
                                        @"temporaray_comment": @"A temp comment here"};
     
@@ -30,19 +48,17 @@
     
     XCTAssertEqualObjects(testMedia.idNumber, sourceDictionary[@"id"], @"The ID number should be equal");
     
-    XCTAssertEqualObjects(testMedia.user, sourceDictionary[@"user"], @"The user name should be equal");
+    XCTAssertEqualObjects(testMedia.user.userName, sourceDictionary[@"user"][@"username"], @"The user name should be equal");
     
-    XCTAssertEqualObjects(testMedia.mediaURL, [NSURL URLWithString:sourceDictionary[@"image"]], @"The image should be equal");
+   
+    XCTAssertTrue(testMedia.downloadState == MediaDownloadStateNonRecoverableError, @"There is no standard resolution image");
     
+    XCTAssertEqualObjects(testMedia.caption, sourceDictionary[@"caption"][@"text"], @"The caption should be equal");
     
-    XCTAssertTrue(testMedia.downloadState == YES, @"The download state switches from downloaded to not downloaded but the method indicates that it does not");
+ 
+    XCTAssertTrue([testMedia.comments[0].text isEqualToString:@"Here is the actual comment"]);
     
-    XCTAssertEqualObjects(testMedia.caption, sourceDictionary[@"caption"], @"The caption should be equal");
-    
-    //XCTAssertEqualObjects(testMedia.comments sourceDictionary[NSArray arrayWithObjects: @"string", @"string2", @"string3"], @"The comments array should be equal");
-    
-    
-    XCTAssertTrue(testMedia.likeState == YES, @"The like state switches from liked to unliked but the method indicates that it does not");
+    XCTAssertTrue(testMedia.likeState == NO, @"The like state switches from liked to unliked but the method indicates that it does not");
     
     
     XCTAssertEqualObjects(testMedia.temporaryComment, sourceDictionary[@"temporary_comment"], @"The temp comments should be equal");

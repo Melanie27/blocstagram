@@ -28,11 +28,11 @@
 
 
 // test to ensure that [MediaTableViewCell+heightForMediaItem:width:] returns accurate heights
-+(CGFloat) heightForMediaItem:(Media *)mediaItem width:(CGFloat)width traitCollection:(UITraitCollection *) traitCollection;
+//+(CGFloat) heightForMediaItem:(Media *)mediaItem width:(CGFloat)width traitCollection:(UITraitCollection *) traitCollection;
 
--(void)testHeightForMediaItem {
+/*-(void)testHeightForMediaItem {
     
-}
+}*/
 
 
 

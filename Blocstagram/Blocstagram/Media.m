@@ -33,7 +33,7 @@
         if ([captionDictionary isKindOfClass:[NSDictionary class]]) {
             self.caption = captionDictionary[@"text"];
         } else {
-            self.caption = @"";
+            self.caption = @"a caption";
         }
         
         NSMutableArray *commentsArray = [NSMutableArray array];
