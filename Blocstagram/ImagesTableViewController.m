@@ -219,7 +219,7 @@
     //to get the right aspect ratio divide the frame by image size and multiply by height
     Media *item = [DataSource sharedInstance].mediaItems[indexPath.row];
     //UIImage *image = item.image;
-    
+    NSLog(@"print width, %f, print traitcollection %@", CGRectGetWidth(self.view.frame), self.view.traitCollection);
     //return image.size.height / image.size.width * CGRectGetWidth(self.view.frame);
      return [MediaTableViewCell heightForMediaItem:item width:CGRectGetWidth(self.view.frame) traitCollection:self.view.traitCollection];
 }

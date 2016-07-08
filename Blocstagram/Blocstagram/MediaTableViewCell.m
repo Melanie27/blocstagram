@@ -371,8 +371,12 @@ static NSParagraphStyle *paragraphStyle;
     [layoutCell setNeedsLayout];
     [layoutCell layoutIfNeeded];
     
+    CGFloat heightToReturn = CGRectGetMaxY(layoutCell.commentView.frame);
+    
+    NSLog(@"Returning height %f for media item %@",heightToReturn,mediaItem.caption);
+    
     //use bottom of the comment view instead of the comment label
-    return CGRectGetMaxY(layoutCell.commentView.frame);
+    return heightToReturn;
 }
 
 //Override traitCollection to return overrideTraitCollection if it's been set:

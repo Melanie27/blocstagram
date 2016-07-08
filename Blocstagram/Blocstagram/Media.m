@@ -18,6 +18,7 @@
         self.idNumber = mediaDictionary[@"id"];
         self.user = [[User alloc] initWithDictionary:mediaDictionary[@"user"]];
         NSString *standardResolutionImageURLString = mediaDictionary[@"images"][@"standard_resolution"][@"url"];
+   //     standardResolutionImageURLString = @"https://i.ytimg.com/vi/m5d1FlSeF-M/maxresdefault.jpg";
         NSURL *standardResolutionImageURL = [NSURL URLWithString:standardResolutionImageURLString];
         
         if (standardResolutionImageURL) {
