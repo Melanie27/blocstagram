@@ -35,7 +35,7 @@ MediaTableViewCell *mtvc;
                                                @"fullname":@"Person 45"
                                                },
                                        
-                                       @"image" : @"https://scontent-lax3-1.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/12445948_1723725777916979_1650061249_n.jpg?ig_cache_key=MTI4MTM4MTQ2MTAzMDYxOTM2MA%3D%3D.2",
+                                       @"images" : @{ @"standard_resolution" : @{ @"url" : @"https://scontent-lax3-1.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/12445948_1723725777916979_1650061249_n.jpg?ig_cache_key=MTI4MTM4MTQ2MTAzMDYxOTM2MA%3D%3D.2" } },
                                        
                                        @"downloadState" : @"BOOL downloadState = ",
                                        @"caption" : @{
@@ -66,11 +66,7 @@ MediaTableViewCell *mtvc;
    
     NSString *urlString = @"https://scontent-lax3-1.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/12445948_1723725777916979_1650061249_n.jpg?ig_cache_key=MTI4MTM4MTQ2MTAzMDYxOTM2MA%3D%3D.2";
     NSURL *url = [NSURL URLWithString:urlString];
-    
-    
-    
-    
-    //NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
 
 }
 
@@ -84,8 +80,8 @@ MediaTableViewCell *mtvc;
 // test to ensure that [MediaTableViewCell+heightForMediaItem:width:] returns accurate heights
 
 -(void) testImage1Height {
-    CGFloat image1Height = [MediaTableViewCell heightForMediaItem:self.mediaItem1 width:670 traitCollection:self.tc];
-    XCTAssertEqual(image1Height, 670.0);
+    CGFloat image1Height = [MediaTableViewCell heightForMediaItem:self.mediaItem1 width:768 traitCollection:self.tc];
+    XCTAssertEqual(image1Height, 768.0);
 }
 
 @end
